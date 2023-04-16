@@ -140,4 +140,21 @@ def subscribe(request):
         messages.success(request, 'Thanks for subscribing')
         
     return redirect('home')
+
+
+def checkout(request):
+    user=request.user
+    cart, created=Cart.objects.get_or_create(account=user.account,complete=False)
+    cartitems=cart.cartitems.all()
+    
+    context={
+        'items':cartitems,
+        'cart':cart
+    }
+    
+    return render(request,'base/checkout.html',context)
+
+
+def contact(request):
+    return render(request, 'base/contact.html')
         
