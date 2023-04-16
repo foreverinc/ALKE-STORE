@@ -1,0 +1,179 @@
+{% load static %}
+
+      <style>
+         .banner_bg_main {
+    width: 100%;
+    float: left;
+    background-image:linear-gradient(rgba(0, 0, 0, 0.582),rgba(0, 0, 0, 0.541)), url("{% static 's.jpeg' %}");
+    height: 100%;
+    background-size: 100%;
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.badge {
+  position: absolute;
+  top: -13px;
+  right: -7px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+      </style>
+      <!-- banner bg main start -->
+      <div class="banner_bg_main">
+         <!-- header top section start -->
+         <div class="container">
+            <div class="header_section_top">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="custom_menu">
+                        <ul>
+                           <li><a href="#">Best Sellers</a></li>
+                           <li><a href="#">Gift Ideas</a></li>
+                           <li><a href="#">New Releases</a></li>
+                           <li><a href="#">Today's Deals</a></li>
+                           <li><a href="#">Customer Service</a></li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- header top section start -->
+         <!-- logo section start -->
+         <div class="logo_section">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="logo"><a href="index.html"><img src=""></a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- logo section end -->
+         <!-- header section start -->
+         <div class="header_section">
+            <div class="container">
+               <div class="containt_main">
+                  <div id="mySidenav" class="sidenav">
+                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                     <a href="{% url 'home' %}">Home</a>
+                     {% for category in categories %}
+                     <a href="{% url 'detail' category.id%}#main_slider">{{category.name}}</a>
+                     {% endfor %}
+                  </div>
+                  <span class="toggle_icon" onclick="openNav()"><img src="{% static 'h.png'%}" width="40"></span>
+                  <div class="dropdown">
+                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Category 
+                     </button>
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for category in categories %}
+                        <a class="dropdown-item" href="{% url 'detail' category.id%}#main_slider">{{category.name}}</a>
+                        {% endfor %}
+                     </div>
+                  </div>
+                  <div class="main">
+                     <!-- Another variation with a button -->
+                     <form action="{% url 'search'%}" method="get">
+                        <div class="input-group">
+                           <input type="text" value="{{query}}" class="form-control" required name="q" placeholder="Search quality products">
+                           <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit" style="background-color: #f26522; border-color:#f26522 ">
+                              <i class="fa fa-search"></i>
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="header_box">
+                     <!-- Button trigger modal -->
+
+                     <div class="login_menu">
+                        <ul>
+                           <li><a href="{% url 'cart'%}" class="position-relative">
+                              <i class="fa fa-shopping-cart fa-xl" aria-hidden="true"></i>
+                              <span class="badge" id="itemnum">{{cart.get_cart_items}}</span>
+                              <span class="padding_10"></span></a>
+                           </li>
+                           <li style="width: 20px;"></li>
+                           {% if user.is_authenticated %}
+                           <span class="text-light" id="logout" style="cursor: pointer;"><i class="fa-solid fa-chevron-down"></i> {{request.user.username}}</span>
+                           {% else %}
+                           <a href="{% url 'account_login'%}" class="btn btn-primary">Login</a>
+                           {% endif %}
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- header section end -->
+         <!-- banner section start -->
+         <div class="banner_section layout_padding">
+            <div class="container">
+               <div class="row d-none shadow-lg" id="other">
+                  <div class="col-md-6 mx-auto">
+                     <div class="card">
+                  <div class="card-body">
+                     <a href="{%url 'account_logout'%}" class="btn btn-danger">Log out</a>
+                     <i class="fa-solid fa-xmark fa-2xl" id="closer" style="float: right;cursor:pointer;"></i>
+                  </div>
+               </div>
+                  </div>
+               </div>
+               
+               <div id="my_slider" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner">
+                     <div class="carousel-item active">
+                        <div class="row">
+                           <div class="col-sm-12">
+                              <h1 class="banner_taital">Shop now <br>Elavate your style game</h1>
+                              <div class="buynow_bt"><a href="{% url 'cart'%}">Buy Now</a></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="carousel-item">
+                        <div class="row">
+                           <div class="col-sm-12">
+                              <h1 class="banner_taital">Don't miss out on exclusive deals and limited-time offers.</h1>
+                              <div class="buynow_bt"><a href="{% url 'cart'%}">Buy Now</a></div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="carousel-item">
+                        <div class="row">
+                           <div class="col-sm-12">
+                              <h1 class="banner_taital"> latest trends and timeless classics</h1>
+                              <div class="buynow_bt"><a href="{% url 'cart'%}">Buy Now</a></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <a class="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
+                  <i class="fa fa-angle-left"></i>
+                  </a>
+                  <a class="carousel-control-next" href="#my_slider" role="button" data-slide="next">
+                  <i class="fa fa-angle-right"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+         <!-- banner section end -->
+      </div>
+      <!-- banner bg main end -->
+<script>
+   document.getElementById('logout').addEventListener('click', function(){
+      document.getElementById('my_slider').classList.add('d-none');
+      document.getElementById('other').classList.remove('d-none');
+   })
+   document.getElementById('closer').addEventListener('click',function(){
+      document.getElementById('my_slider').classList.remove('d-none');
+      document.getElementById('other').classList.add('d-none');
+   })
+</script>
