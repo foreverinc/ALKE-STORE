@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     "debug_toolbar",
     'cloudinary',
-    'cloudinary_storage'
+    'cloudinary_storage',
+    'multiselectfield',
 ]
 
 SITE_ID=1

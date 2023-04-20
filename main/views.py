@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Product,Cart,OrderItem,Category,Vendor
+from .models import Product,Cart,OrderItem,Category,Vendor,ProductImage,Review,Wishlist,Size,Color,PriceRange
 from django.http import JsonResponse
 import json
 from django.core.paginator import Paginator
@@ -17,7 +17,7 @@ def homepage(request):
     categories = Category.objects.all()
     products=Product.objects.all().order_by('-id')[:8]
     vendors=Vendor.objects.all()
-    
+    featured =  Product.objects.filter(featured=True)[:4]
 
     if user.is_authenticated:
         cart, created = Cart.objects.get_or_create(account=user.account, complete=False)
@@ -28,43 +28,65 @@ def homepage(request):
     context['products'] = products
     context['categories'] = categories
     context['vendors']=vendors
+    context['featured']=featured
 
     return render(request, 'base/index.html', context)
 
 
-def details(request, category):
-    user=request.user
-    status=False
-    items_list = Product.objects.filter(category_id=category).order_by('-date_added')
-    category=Category.objects.get(id=category).name
-    p=Paginator(items_list,3)
-    page=request.GET.get('page')
-    items=p.get_page(page)
-    categories=Category.objects.all()
-    context = {
-        'items': items,
-        'category':category,
-        'categories': categories,
-        'status': status
-    }
+
+
+def shop(request):
+    user = request.user
+    cart = None
+    cartitems = None
+    categories = Category.objects.all()
+    context={}
+    colors=Color.objects.all()
+    sizes=Size.objects.all()
+    ranges=PriceRange.objects.all()
+
     if user.is_authenticated:
         cart, created = Cart.objects.get_or_create(account=user.account, complete=False)
         cartitems = cart.cartitems.all()
         context['cart'] = cart
         context['cartitems'] = cartitems
-    return render(request, 'base/detail.html', context=context)
-
-
+    context['colors'] = colors
+    context['sizes'] = sizes
+    context['ranges']= ranges
+    if request.GET:
+        if request.GET['category']:
+            category=request.GET['category']
+            products_list=Product.objects.filter(category_id=category).order_by('-id')
+        elif request.GET['price_range']:
+            range=request.GET['price_range']
+            products_list=Product.objects.filter(price_range_id=range)
+        elif request.GET['color']:
+            color=request.GET['color']
+            product_list=Product.objects.filter(color_id=color)
+        elif request.GET['size']:
+            size=request.GET['size']
+            product_list=Product.objects.filter(size_id=size)
+        
+    else:
+        products_list =Product.objects.all().order_by('-id')
+    p=Paginator(products_list,9)
+    page=request.GET.get('page')
+    products=p.get_page(page)
+    
+    context['products'] = products
+    context['categories'] = categories
+    return render(request, 'base/shop.html',context)
 
 @login_required
 def cart_view(request):
     user=request.user
     cart, created=Cart.objects.get_or_create(account=user.account,complete=False)
     cartitems=cart.cartitems.all()
-    
+    categories = Category.objects.all()
     context={
         'items':cartitems,
-        'cart':cart
+        'cart':cart,
+        'categories':categories
     }
     return render(request,'base/cart.html',context)
 
@@ -157,4 +179,61 @@ def checkout(request):
 
 def contact(request):
     return render(request, 'base/contact.html')
+
+
+def detail(request,pk):
+    product=Product.objects.get(id=pk)
+    images=ProductImage.objects.filter(product_id=pk)
+    user=request.user
+    
+    context={
+        'item':product,
+        'images':images,
+    }
+    if user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(account=user.account, complete=False)
+        cartitems = cart.cartitems.all()
+        context['cart'] = cart
+        context['cartitems'] = cartitems
+    return render(request,'base/detail.html',context)   
+
+def review(request,pk):
+    if request.POST:
+        name=request.POST['name']
+        stars=request.POST['ratings']
+        email=request.POST['email']
+        comment=request.POST['comment']
+        product=Product.objects.get(id=pk)
+        new_review=Review.objects.create(name=name,rating=stars,email=email,comment=comment,product=product)
+        new_review.save()
+    
+    return redirect('detail',pk=pk)
+         
+         
+@login_required
+def update_wishlist(request):
+    user = request.user
+    data = json.loads(request.body)
+    product_id = data['productId']
+    product = Product.objects.get(id=product_id)
+    
+    try:
+        wishlist = Wishlist.objects.get(user=user)
+    except Wishlist.DoesNotExist:
+        wishlist = Wishlist.objects.create(user=user)
         
+    if not wishlist.products.filter(id=product_id).exists():
+        wishlist.products.add(product)
+        wishes = wishlist.products.count()
+        return JsonResponse(wishes, safe=False)
+    
+    wishes = wishlist.products.count()
+    return JsonResponse(wishes, safe=False)
+
+def view_wishlist(request):
+    user=request.user
+    wishes=Wishlist.objects.get(user=user).products.all()
+    context={
+        'wishes':wishes
+    }
+    return render(request, 'base/wishlist.html',context)

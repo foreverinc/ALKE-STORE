@@ -1,0 +1,46 @@
+{% if item.review%}
+{% if item.average_review == 0 %}
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+{% elif item.average_review == 1 %}
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+{% elif item.average_review == 2 %}
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+{% elif item.average_review == 3 %}
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+{% elif item.average_review == 4 %}  
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+{% elif item.average_review == 5 %}    
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+  <small class="fa fa-star text-primary mr-1"></small>
+{% else %}
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  <small class="fa fa-star mr-1"></small>
+  {% endif %}
+  <small>({{item.review.count}})</small>
+{% endif %}

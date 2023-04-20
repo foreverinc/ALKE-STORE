@@ -1,0 +1,44 @@
+categories = [    "Apparel & Accessories",    "Beauty & Personal Care",    "Books, Movies & Music",    "Consumer Electronics",    "Food & Beverage",    "Health & Wellness",    "Home & Garden",    "Office & School Supplies",    "Sports & Outdoors",    "Toys & Games",]
+
+------------------_HELP_------------------
+
+from main.models import Category
+categories = [    "Apparel & Accessories",    "Beauty & Personal Care",    "Books, Movies & Music",    "Consumer Electronics",    "Food & Beverage",    "Health & Wellness",    "Home & Garden",    "Office & School Supplies",    "Sports & Outdoors",    "Toys & Games",]
+for c in categories:
+    new_cat=Category.objects.create(name=c)
+    new_cat.save()
+
+
+
+
+----------------------_COLORS_---------------------------
+
+ from main.models import Color
+>>> colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white', 'gray', 'brown', 'multi-color']
+>>> for c in colors:
+...     color=Color.objects.create(name=c)
+...     color.save()
+
+
+
+--------------------------------_SIZE_----------------------
+
+from main.models import Size
+>>> sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+>>> for s in sizes:
+...     size=Size.objects.create(name=s)
+...     size.save()
+
+
+
+------------------------------_RANGES_--------------------
+
+from main.models import PriceRange
+
+price_ranges = ['$0 - $100', '$100 - $200', '$200 - $300', '$300 - $400', '$400 - $500']
+min_prices = [0, 100, 200, 300, 400]
+max_prices = [100, 200, 300, 400, 500]
+
+for r, min_p, max_p in zip(price_ranges, min_prices, max_prices):
+    range = PriceRange.objects.create(range=r, max_price=max_p, min_price=min_p)
+    range.save()

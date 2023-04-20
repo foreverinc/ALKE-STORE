@@ -9580,19 +9580,19 @@ a.text-dark:hover, a.text-dark:focus {
   transition: .5s;
 }
 
-.product-offer:hover img {
+/* .product-offer:hover img {
   transform: scale(1.2) rotate(5deg);
-}
+} */
 
 .product-offer .offer-text {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: 10px;
   bottom: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   background: rgba(61, 70, 77, 0.5);
   z-index: 1;
@@ -9642,41 +9642,15 @@ a.text-dark:hover, a.text-dark:focus {
   box-shadow: 0 0 30px #DDDDDD;
 }
 
-.product-item:hover .product-action {
-  background: rgba(255, 255, 255, 0.7);
-}
 
-.product-item:hover .product-action a.btn:first-child {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s 0s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(2) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .05s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(3) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .1s;
-}
-
-.product-item:hover .product-action a.btn:nth-child(4) {
-  opacity: 1;
-  margin-top: 0;
-  transition: .3s .15s;
-}
 
 .product-item .product-img img {
   transition: .5s;
 }
 
-.product-item:hover .product-img img {
+/* .product-item:hover .product-img img {
   transform: scale(1.2);
-}
+} */
 
 .product-item .btn:hover {
   color: #FFD333 !important;
