@@ -76,30 +76,3 @@ for (var i = 0; i < stars.length; i++) {
 
 
 
-
-let wishesBtn = document.getElementsByClassName("update-wish");
-for (var i = 0; i < wishesBtn.length; i++) {
-  wishesBtn[i].addEventListener("click", function () {
-    var productId = this.dataset.product;
-    updateUserWishlist(productId);
-  });
-}
-
-function updateUserWishlist(productId) {
-  var url = "/wishlist/";
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
-    },
-    body: JSON.stringify({ productId: productId}),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      document.getElementById("wishnum").innerHTML = data;
-      alert("Added to Wishlist");
-    });
-}

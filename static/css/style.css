@@ -9588,11 +9588,11 @@ a.text-dark:hover, a.text-dark:focus {
   position: absolute;
   top: 0;
   left: 0;
-  right: 10px;
+  right: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   background: rgba(61, 70, 77, 0.5);
   z-index: 1;
@@ -9611,9 +9611,9 @@ a.text-dark:hover, a.text-dark:focus {
   transition: .5s;
 }
 
-.cat-item:hover img {
+/* .cat-item:hover img {
   transform: scale(1.2) rotate(5deg);
-}
+} */
 
 .product-item {
   transition: .5s;
@@ -9642,7 +9642,33 @@ a.text-dark:hover, a.text-dark:focus {
   box-shadow: 0 0 30px #DDDDDD;
 }
 
+.product-item:hover .product-action {
+  background: rgba(255, 255, 255, 0.7);
+}
 
+.product-item:hover .product-action a.btn:first-child {
+  opacity: 1;
+  margin-top: 0;
+  transition: .3s 0s;
+}
+
+.product-item:hover .product-action a.btn:nth-child(2) {
+  opacity: 1;
+  margin-top: 0;
+  transition: .3s .05s;
+}
+
+.product-item:hover .product-action a.btn:nth-child(3) {
+  opacity: 1;
+  margin-top: 0;
+  transition: .3s .1s;
+}
+
+.product-item:hover .product-action a.btn:nth-child(4) {
+  opacity: 1;
+  margin-top: 0;
+  transition: .3s .15s;
+}
 
 .product-item .product-img img {
   transition: .5s;

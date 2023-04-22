@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Product,Cart,OrderItem,Category,Vendor,ProductImage,Review,Wishlist,Size,Color,PriceRange
+from .models import Product,Cart,OrderItem,Category,ProductImage,Review,Size,Color
 from django.http import JsonResponse
 import json
 from django.core.paginator import Paginator
@@ -15,9 +15,8 @@ def homepage(request):
     cartitems = None
     context = {}
     categories = Category.objects.all()
-    products=Product.objects.all().order_by('-id')[:8]
-    vendors=Vendor.objects.all()
-    featured =  Product.objects.filter(featured=True)[:4]
+    products=Product.objects.all().order_by('-id')[:4]
+    featured =  Product.objects.filter(featured=True).order_by('?')[0:4]
 
     if user.is_authenticated:
         cart, created = Cart.objects.get_or_create(account=user.account, complete=False)
@@ -27,7 +26,6 @@ def homepage(request):
 
     context['products'] = products
     context['categories'] = categories
-    context['vendors']=vendors
     context['featured']=featured
 
     return render(request, 'base/index.html', context)
@@ -43,7 +41,6 @@ def shop(request):
     context={}
     colors=Color.objects.all()
     sizes=Size.objects.all()
-    ranges=PriceRange.objects.all()
 
     if user.is_authenticated:
         cart, created = Cart.objects.get_or_create(account=user.account, complete=False)
@@ -52,23 +49,32 @@ def shop(request):
         context['cartitems'] = cartitems
     context['colors'] = colors
     context['sizes'] = sizes
-    context['ranges']= ranges
-    if request.GET:
-        if request.GET['category']:
-            category=request.GET['category']
-            products_list=Product.objects.filter(category_id=category).order_by('-id')
-        elif request.GET['price_range']:
-            range=request.GET['price_range']
-            products_list=Product.objects.filter(price_range_id=range)
-        elif request.GET['color']:
-            color=request.GET['color']
-            product_list=Product.objects.filter(color_id=color)
-        elif request.GET['size']:
-            size=request.GET['size']
-            product_list=Product.objects.filter(size_id=size)
-        
-    else:
-        products_list =Product.objects.all().order_by('-id')
+    
+    products_list = Product.objects.all().order_by('id')
+    
+    # try:
+    if 'price' in request.GET:
+        price=request.GET['price']
+        products_list=Product.objects.filter(price_label=price).order_by('id')
+    elif 'category' in request.GET:
+        category=request.GET['category']
+        products_list=Product.objects.filter(category_id=category).order_by('id')
+    elif 'q' in request.GET:
+        q=request.GET['q']
+        products_list = Product.objects.filter( Q(name__icontains=q) | Q(description__icontains=q)
+        ).order_by('id')
+    if 'rate' in request.GET:
+        price=request.GET['rate']
+        #products_list=Product.objects.filter(average_review=price).order_by('id')    
+    # except:
+    #     pass
+
+    if request.method == 'POST':
+        min_price=request.POST.get('min')
+        max_price=request.POST.get('max')
+        if min_price and max_price:
+            products_list = products_list.filter(price__gte=min_price, price__lte=max_price)
+
     p=Paginator(products_list,9)
     page=request.GET.get('page')
     products=p.get_page(page)
@@ -76,6 +82,8 @@ def shop(request):
     context['products'] = products
     context['categories'] = categories
     return render(request, 'base/shop.html',context)
+
+
 
 @login_required
 def cart_view(request):
@@ -210,30 +218,11 @@ def review(request,pk):
     return redirect('detail',pk=pk)
          
          
-@login_required
-def update_wishlist(request):
-    user = request.user
-    data = json.loads(request.body)
-    product_id = data['productId']
-    product = Product.objects.get(id=product_id)
-    
-    try:
-        wishlist = Wishlist.objects.get(user=user)
-    except Wishlist.DoesNotExist:
-        wishlist = Wishlist.objects.create(user=user)
-        
-    if not wishlist.products.filter(id=product_id).exists():
-        wishlist.products.add(product)
-        wishes = wishlist.products.count()
-        return JsonResponse(wishes, safe=False)
-    
-    wishes = wishlist.products.count()
-    return JsonResponse(wishes, safe=False)
 
-def view_wishlist(request):
-    user=request.user
-    wishes=Wishlist.objects.get(user=user).products.all()
-    context={
-        'wishes':wishes
-    }
-    return render(request, 'base/wishlist.html',context)
+
+
+def about(request):
+    return render(request,'base/about.html')
+
+def faq(request):
+    return render(request,'base/faq.html')

@@ -6,8 +6,7 @@ from multiselectfield import MultiSelectField
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    image=models.ImageField(upload_to='category/',null=True)
-
+    image_name=models.CharField(max_length=100,null=True)
     def __str__(self):
         return self.name
     
@@ -25,17 +24,6 @@ class Color(models.Model):
     def item_count(self):
         return Product.objects.filter(color=self).count()
     
-class PriceRange(models.Model):
-    range = models.CharField(max_length=100)
-    min_price = models.DecimalField(max_digits=1000, decimal_places=2)
-    max_price = models.DecimalField(max_digits=10000, decimal_places=2)
-
-    def __str__(self):
-        return self.range
-
-    @property
-    def item_count(self):
-        return Product.objects.filter(price_range=self).count()
 
 
 
@@ -56,17 +44,14 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.name
 
-class Promotion(models.Model):
-    product=models.ManyToManyField('Product',blank=True)
-    name=models.CharField(max_length=200)
-    discount=models.IntegerField()
-    coupon=models.CharField(max_length=8)
-    min_price=models.DecimalField(decimal_places=2,max_digits=1000)
-    
-    def __str__(self):
-        return self.name
+
 
 class Product(models.Model):
+    PRICE_LABELS=(
+        ('A','Below $25'),
+        ('B','$25 - $50'),
+        ('C','Above $50')
+    )
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10000, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
@@ -79,9 +64,9 @@ class Product(models.Model):
     special_offer = models.BooleanField(default=False)
     color=models.ManyToManyField(Color,blank=True)
     size=models.ManyToManyField(Size,blank=True)
-    manufacturer = models.ForeignKey('Vendor', on_delete=models.SET_NULL,null=True)
-    material=models.CharField(max_length=200,blank=True,null=True)
-    price_range=models.ForeignKey(PriceRange,on_delete=models.SET_NULL,null=True)
+    manufacturer = models.CharField(max_length=200,null=True)
+    material=models.CharField(max_length=200,blank=True,null=True),
+    price_label=models.CharField(max_length=3,null=True,choices=PRICE_LABELS)
 
     
     @property
@@ -164,25 +149,5 @@ class OrderItem(models.Model):
     def __str__(self):
         return self.product.name
     
-class Vendor(models.Model):
-    name=models.CharField(max_length=200)
-    img=models.ImageField(upload_to='vendors/',blank=True,null=True)
-    
-    def __str__(self):
-        return self.name
-    
-    @property
-    def get_img(self):
-        image=self.img.url
-        if image:
-            
-            return self.img.url 
-        return None
-    
-    
-class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='wishlist')
-    products = models.ManyToManyField(Product)
 
-    def __str__(self):
-        return f"{self.user.username}'s Wishlist"
+    
