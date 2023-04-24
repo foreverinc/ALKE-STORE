@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% block content %}
 {% load static %}
+{% load customtags %}
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -42,78 +43,84 @@
 
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
-                    <h3>{{item.name}}</h3>
-                    <div class="d-flex mb-3">
-                        <div class=" mr-2">
-                            {% include 'base/rating.html'%}
+                    <form action="{% url 'update' item.pk %}" method="post">
+                        {% csrf_token %}
+                        <h3>{{item.name}}</h3>
+                        <div class="d-flex mb-3">
+                            <div class=" mr-2">
+                                {% include 'base/rating.html'%}
+                            </div>
                         </div>
-                    </div>
-                    <h3 class="font-weight-semi-bold mb-4">${{item.price}}</h3>
-                    <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#info">more</a></p>
-
-                        {% if item.size.all == 0 %}
-                    <div class="d-flex mb-3">
-                        <strong class="text-dark mr-3">Sizes:</strong>
-                        <form>
-                            {% for s in item.size.all %}
-                            <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size_{{s}}" name="color" value="{{s}}">
-                                    <label class="custom-control-label" for="size_{{s}}">{{s}}</label>
-                                </div>
-                            {% endfor %}
-                            
-                        </form>
-                    </div>
-                    {% endif %}
-                    {% if item.color.all == 0 %}
-                    <div class="d-flex mb-4">
-                        <strong class="text-dark mr-3">Colors:</strong>
-                        <form>
-                            {% for c in item.color.all %}
+                        <h3 class="font-weight-semi-bold" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h3>{% endif %}
+                        <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#info">more</a></p>
+                        {% if item.original_price %}
+                        <p class="text-info fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
+                        
+                        {% endif %}
+                            {% if item.size %}
+                        <div class="d-flex mb-3">
+                            <strong class="text-dark mr-3">Sizes:</strong>
+                           
+                                {% for s in item.size %}
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color_{{c}}" name="color" value="{{c}}">
-                                    <label class="custom-control-label" for="color_{{c}}">{{c}}</label>
-                                </div>
-                            {% endfor %}
-
+                                        <input type="radio" required class="custom-control-input" id="size_{{s}}" name="size" value="{{s}}">
+                                        <label class="custom-control-label" for="size_{{s}}">{{s}}</label>
+                                    </div>
+                                {% endfor %}
+                                
                             
-                        </form>
-                    </div>
-                    {% endif %}
-                    <div class="d-flex align-items-center mb-4 pt-2">
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
+                        </div>
+                        {% endif %}
+                        {% if item.color %}
+                        <div class="d-flex mb-4">
+                            <strong class="text-dark mr-3">Colors:</strong>
+                            
+                                {% for c in item.color %}
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input required type="radio" class="custom-control-input" id="color_{{c}}" name="color" value="{{c}}">
+                                        <label class="custom-control-label" for="color_{{c}}">{{c}}</label>
+                                    </div>
+                                {% endfor %}
+
+                                
+                            
+                        </div>
+                        {% endif %}
+                        <div class="d-flex align-items-center mb-4 pt-2">
+                            <div class="input-group quantity mr-3" style="width: 130px;">
+                                <div class="input-group-btn">
+                                    <button role="button" data-action="remove" type="button" class="btn btn-primary btn-minus update-quantity">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" name="quantity" readonly min="1" id="quantity" class="form-control bg-secondary border-0 text-center" value="1">
+                                <div class="input-group-btn">
+                                    <button role="button" data-action="add" type="button" class="btn btn-primary btn-plus update-quantity">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
+                            <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                                Cart</button>
+                        </div>
+                        <div class="d-flex pt-2">
+                            <strong class="text-dark mr-2">Share on:</strong>
+                            <div class="d-inline-flex">
+                                <a class="text-dark px-2" href="">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a class="text-dark px-2" href="">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a class="text-dark px-2" href="">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a class="text-dark px-2" href="">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
                             </div>
                         </div>
-                        <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                            Cart</button>
-                    </div>
-                    <div class="d-flex pt-2">
-                        <strong class="text-dark mr-2">Share on:</strong>
-                        <div class="d-inline-flex">
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a class="text-dark px-2" href="">
-                                <i class="fab fa-pinterest"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -267,131 +274,25 @@
         <div class="row px-xl-5">
             <div class="col">
                 <div class="owl-carousel related-carousel">
-                    <div class="product-item bg-light">
+                    {% for item in others %}
+                    <div class="product-item bg-light position-relative">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
+                            <span class="bg-primary position-absolute px-1" style="right: 0;">-{{item.get_discount}}%</span>
+                            <img class="img-fluid w-100" src="{{item.product_img.url}}" alt="">
+                            
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
+                            <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                                <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
+                                {% include 'base/rating.html'%}
                             </div>
+                            <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
                         </div>
                     </div>
-                    <div class="product-item bg-light">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item bg-light">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item bg-light">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-4.jpg" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-item bg-light">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>$123.00</h5><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99)</small>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 {% extends 'base/base.html'%}
 {% block content %}
+{% load customtags %}
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -142,7 +143,7 @@
                         {% for item in items %}
                         <div class="d-flex justify-content-between">
                             <p>{{item.product.name}}</p>
-                            <p>${{item.get_total}}</p>
+                            <p>{% if request.user.account.exchange.initials == 'USD' %}${{item.get_total}}{% else %}{{item.get_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</p>
                         </div>
                         {% endfor %}
                         
@@ -150,18 +151,20 @@
                     <div class="border-bottom pt-3 pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>${{cart.get_cart_total}}</h6>
+                            <h6>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_shipping}}{% else %}{{cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
                         </div>
                     </div>
                     <div class="pt-2">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5>Total</h5>
-                            <h5>$160</h5>
-                        </div>
+<div class="d-flex justify-content-between mt-2">
+    <h5>Total</h5>
+    <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total|add:cart.get_shipping|floatformat:2}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange|floatformat:2}} {{request.user.account.exchange}}{% endif %}</h5>
+</div>
+
+
                     </div>
                 </div>
                 <div class="mb-5">

@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% block content %}
+{% load customtags %}
 <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -44,28 +45,7 @@
 </div>
 
                 <!-- Price End -->
-             <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">FILTER BY REVIEWS</span></h5>
-                <div class="bg-light p-4 mb-30">
-  <a href="{% url 'shop'%}?rate=1" class="text-dark text-decoration-none">
-    <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small><small>Rated 5 </small>
-  </a> <br><br>
-  <a href="{% url 'shop' %}?rate=2" class="text-dark text-decoration-none">
-    <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1 text-primary"></small>
-  <small class="fa fa-star mr-1"></small><small>Rated 3 to 4 stars  </small>
-  </a><br>
-  
-</div>
-
-                <!-- Price End -->
-                   
+             
                 
 
                 
@@ -116,7 +96,7 @@
                             <div class="text-center py-4">
                                 <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
+                                    <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     {% include 'base/rating.html'%}

@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% block content %}
 {% load static %}
+{% load customtags %}
     <!-- Carousel Start -->
     <div class="container-fluid mb-3">
         <div class="row px-xl-5">
@@ -17,7 +18,7 @@
                             <img class="position-absolute w-100 h-100" src="{% static 'img/accesories.jpeg' %}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">{{categories.0}}</h1>
+                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Latest Fashion</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Step up your style game with the latest trends and stylish recommendations.</p>
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'shop'%}?category={{categories.0.id}}">Shop Now</a>
                                 </div>
@@ -27,7 +28,7 @@
                             <img class="position-absolute w-100 h-100" src="{% static 'img/personal.jpg' %}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">{{categories.1}}</h1>
+                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Beauty and Personal Care</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Unleash your natural beauty with our personalized care products today</p>
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'shop'%}?category={{categories.1.id}}">Shop Now</a>
                                 </div>
@@ -37,7 +38,7 @@
                             <img class="position-absolute w-100 h-100" src="{% static 'img/book.jpg' %}" style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">{{categories.2}}</h1>
+                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Books and Movies</h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Escape into endless worlds with our vast collection of books and movies</p>
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="{% url 'shop'%}?category={{categories.2.id}}">Shop Now</a>
                                 </div>
@@ -98,7 +99,6 @@
                         </div>
                         <div class="flex-fill pl-3">
                             <h6>{{category.name}}</h6>
-                            <small class="text-body">{{category.item_count}} Products</small>
                         </div>
                     </div>
                 </a>
@@ -113,7 +113,8 @@
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
         <div class="row px-xl-5">
-            {% for item in featured%}
+            {% for item in products %}
+            {% if item.featured %}
             <div class="col-lg-3 col-md-4 col-sm-6 position-relative ">
                 
                 <div class="product-item bg-light mb-4">
@@ -125,17 +126,17 @@
                     <div class="text-center p-2" style="overflow: hidden;">
                         <span class="h6 text-decoration-none text-truncate">{{item.name|truncatewords:4}}</span>
                         <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
+                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             {% include 'base/rating.html'%}
                         </div>
-
                     </div>
                     <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
                 </div>
                
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

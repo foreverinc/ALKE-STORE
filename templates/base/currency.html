@@ -1,0 +1,7 @@
+
+<div class="dropdown-menu dropdown-menu-right">
+    {% for currency in currencies %}
+    <a href="{% url 'currency' %}?currency={{currency.id}}" class="dropdown-item" type="button">{{currency.initials}}</a>
+    {% endfor %}
+</div>
+                    

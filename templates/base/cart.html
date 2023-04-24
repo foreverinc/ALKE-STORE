@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% block content %}
+{% load customtags %}
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -13,8 +14,9 @@
         </div>
     </div>
     <!-- Breadcrumb End -->
-
-
+    <div class="container mb-3" id="starter">
+        <a href="{% url 'shop' %}" class="btn btn-outline-dark"><i class="fa fa-arrow-left"></i> Continue shopping</a>
+    </div>
     <!-- Cart Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -32,8 +34,8 @@
                     <tbody class="align-middle">
                         {% for item in items %}
                         <tr>
-                            <td class="align-middle"><img src="{{item.product.product_img.url}}" alt="" style="width: 50px;"> {{item.product.name}}</td>
-                            <td class="align-middle">${{item.product.price}}</td>
+                            <td class="align-middle"><img src="{{item.product.product_img.url}}" alt="" style="width: 50px;"> {{item.product.name|truncatewords:2}}</td>
+                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.product.price}}{% else %}{{item.product.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
                             <td class="align-middle">
                                 <form action="{% url 'add' %}" method="post">
                                     {% csrf_token %}
@@ -54,7 +56,7 @@
                                 </form>
 
                             </td>
-                            <td class="align-middle">${{item.get_total}}</td>
+                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.get_total}}{% else %}{{item.get_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
                             <td class="align-middle"><a href="{% url 'done' item.id %}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                         </tr>
                         {% endfor %}
@@ -75,17 +77,18 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>${{cart.get_cart_total}}</h6>
+                            <h6>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_shipping}}{% else %}{{cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$160</h5>
+                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total|add:cart.get_shipping}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>
+                            
                         </div>
                         <a href="{% url 'checkout'%}" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                     </div>

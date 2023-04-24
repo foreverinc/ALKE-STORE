@@ -3,6 +3,8 @@ import uuid
 from accounts.models import Account
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+from django.contrib.auth import get_user_model
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -14,28 +16,9 @@ class Category(models.Model):
     def item_count(self):
         return Product.objects.filter(category=self).count()
 
-class Color(models.Model):
-    name=models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.name
-    
-    @property
-    def item_count(self):
-        return Product.objects.filter(color=self).count()
-    
 
 
 
-class Size(models.Model):
-    name=models.CharField(max_length=1000)
-    
-    def __str__(self):
-        return self.name
-    
-    @property
-    def item_count(self):
-        return Product.objects.filter(size=self).count()
 
 class ProductImage(models.Model):
     product = models.ForeignKey('Product',on_delete=models.CASCADE,related_name='images')
@@ -52,6 +35,24 @@ class Product(models.Model):
         ('B','$25 - $50'),
         ('C','Above $50')
     )
+    COLORS=(
+        ('RED','RED'),
+        ('WHITE','WHITE'),
+        ('BLACK','BLACK'),
+        ('BLUE','BLUE'),
+        ('GREEN','GREEN'),
+        ('YELLOW','YELLOW'),
+        ('MULTICOLOR','MULTICOLOR'),
+        ('GRAY','GRAY'),
+    )
+    SIZE=(
+        ('XS','XS'),
+        ('S','S'),
+        ('M','M'),
+        ('L','L'),
+        ('XL','XL'),
+        ('XXL','XXL'),
+    )
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10000, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
@@ -62,13 +63,16 @@ class Product(models.Model):
     original_price = models.DecimalField(max_digits=10000, decimal_places=2, blank=True, null=True)
     description = models.TextField(verbose_name='Description')
     special_offer = models.BooleanField(default=False)
-    color=models.ManyToManyField(Color,blank=True)
-    size=models.ManyToManyField(Size,blank=True)
+    color=MultiSelectField(choices=COLORS,max_length=100,max_choices=20,null=True,blank=True)
+    size=MultiSelectField(choices=SIZE,max_length=100,max_choices=20,null=True,blank=True)
     manufacturer = models.CharField(max_length=200,null=True)
-    material=models.CharField(max_length=200,blank=True,null=True),
+    material=models.CharField(max_length=200,blank=True,null=True)
     price_label=models.CharField(max_length=3,null=True,choices=PRICE_LABELS)
 
     
+        
+        
+        
     @property
     def get_url(self):
         return self.product_img.url or None
@@ -114,10 +118,21 @@ class Review(models.Model):
 
 
 class Cart(models.Model):
-    account=models.ForeignKey(Account,on_delete=models.CASCADE)  
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
     date_ordered=models.DateTimeField(auto_now_add=True)
     transaction_id=models.UUIDField(default=uuid.uuid4,primary_key=True)
-    complete=models.BooleanField(default=False)  
+    complete=models.BooleanField(default=False)
+    
+    
+    @property
+    def get_shipping(self):
+        orders=self.cartitems.all()
+        total=sum([item.get_total for item in orders])
+        if total >100:
+            shipping=30
+        else:
+            shipping=50
+        return shipping  
     
     
     @property
@@ -140,6 +155,8 @@ class OrderItem(models.Model):
     product=models.ForeignKey(Product, related_name='items',on_delete=models.CASCADE)
     cart=models.ForeignKey(Cart,on_delete=models.CASCADE,blank=True,null=True,related_name='cartitems')
     quantity=models.IntegerField(default=0,null=True,blank=True)
+    color=models.CharField(max_length=100,null=True,blank=True)
+    size=models.CharField(max_length=100,null=True,blank=True)
     date_added=models.DateTimeField(auto_now_add=True)
     @property
     def get_total(self):

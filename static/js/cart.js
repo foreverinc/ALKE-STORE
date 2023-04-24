@@ -76,3 +76,19 @@ for (var i = 0; i < stars.length; i++) {
 
 
 
+let QuantityBtns = document.getElementsByClassName("update-quantity");
+let quantity = document.getElementById("quantity");
+for (var i = 0; i < QuantityBtns.length; i++) {
+  QuantityBtns[i].addEventListener("click", function () {
+    var action = this.dataset.action;
+    console.log(action);
+    if (action === "add") {
+      quantity.value = parseInt(quantity.value) + 1;
+    } else if (action === "remove") {
+      if (quantity.value > 1) {
+        // check if value is already 1 or above
+        quantity.value = parseInt(quantity.value) - 1;
+      }
+    }
+  });
+}
