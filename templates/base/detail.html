@@ -51,7 +51,14 @@
                                 {% include 'base/rating.html'%}
                             </div>
                         </div>
+                        {% if user.is_authenticated %}
                         <h3 class="font-weight-semi-bold" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h3>{% endif %}
+
+                        {% else %}
+
+                        <h3 class="font-weight-semi-bold" style="display:inline-block">${{item.price}}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h3>{% endif %}
+                        {% endif %}
+                        
                         <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#info">more</a></p>
                         {% if item.original_price %}
                         <p class="text-info fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>

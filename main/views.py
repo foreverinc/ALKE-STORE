@@ -24,7 +24,7 @@ def shop(request):
 
     context = {}
 
-    products_list = Product.objects.all().order_by("id")
+    products_list = Product.objects.select_related('category').prefetch_related('review').all().order_by("id")
 
     try:
         if "price" in request.GET:
