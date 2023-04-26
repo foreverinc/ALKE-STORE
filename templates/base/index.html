@@ -125,8 +125,10 @@
                     </div>
                     <div class="text-center p-2" style="overflow: hidden;">
                         <span class="h6 text-decoration-none text-truncate">{{item.name|truncatewords:4}}</span>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
+                        <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
                             <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
+                            {% else %}
+                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             {% include 'base/rating.html'%}
@@ -175,8 +177,10 @@
                     </div>
                     <div class="text-center bg-light p-2">
                         <span class="h6 text-decoration-none text-center text-truncate">{{item.name|truncatewords:4}}</span>
-                        <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
+                        <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
+                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
+                            {% else %}
+                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-1">
                             {% include 'base/rating.html' %}

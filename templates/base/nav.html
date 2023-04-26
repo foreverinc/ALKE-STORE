@@ -23,8 +23,10 @@
                         {% endif %}
                     </div>
                     <div class="btn-group mx-2">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{% if user.is_authenticated %}{{user.account.exchange.initials}}{% else %}SEK{% endif %}</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{% if user.is_authenticated %}{{user.account.exchange.initials}}{% else %}USD{% endif %}</button>
+                        {% if user.is_authenticated %}
                         {% currency %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
