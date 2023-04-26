@@ -36,15 +36,7 @@
             <div class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
-                  <!-- <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      Kenneth Valdez
-                    </div>
-                  </div> --
-                  <hr>-->
+                  <div id="edit">
                   <div class="row align-items-center">
                     <div class="col-sm-3">
                       <h6 class="mb-0">Email Address</h6>
@@ -73,12 +65,57 @@
                   </div>
                   <hr>
                   
-                  <div class="row d-none">
+                  <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info " href="">Edit</a>
+                      <button onclick="edit()" class="btn btn-info">Edit</button>
+                    </div>
+                  </div>
+                  </div>
+                  <!-- other -->
+                  <form action="{% url 'account' %}" method="post">
+                    {% csrf_token %}
+                  <div id="other-edit" class="d-none">
+                <div class="row align-items-center">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email Address</h6>
+                    </div>
+                    <input class="col-sm-9 form-control" name="email" value="{{user.email}}">
+                  
+                  </div>
+                  <hr>
+                  <div class="row align-items-center">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Phone number</h6>
+                    </div>
+                    <input class="col-sm-9 form-control" name="phone" value="{{user.account.phone_number}}">
+                  </div>
+                  <hr>
+                  <div class="row align-items-center">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Currency</h6>
+                    </div>
+                    {% for c in cs %}
+                    <div class="form-check">
+  <input class="form-check-input" value="{{c.id}}" type="radio" name="currency" id="{{c}}">
+  <label class="form-check-label mr-3" for="{{c}}">
+    {{c.name}}
+  </label>
+</div>
+{% endfor %}
+                  </div>
+                  <hr>
+                  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-info ">Done</button>
                     </div>
                   </div>
                 </div>
+                </form>
+                </div>
+                <!---end -->
+                </div></div>
+                
               </div>
 
               <div class="row gutters-sm">
@@ -108,5 +145,11 @@
         </div>
     </div>
 
+    <script>
+      function edit (){
+        document.getElementById('edit').classList.add('d-none');
+        document.getElementById('other-edit').classList.remove('d-none');
+      }
+    </script>
 
 {% endblock %}
