@@ -1,130 +1,121 @@
 <!-- Topbar Start -->
-{% load customtags %}
-{% load static %}
-    <div class="container-fluid">
-        <div class="row bg-light justify-content-between shadow-lg fixed-top py-1 px-xl-5" style="height: 45px;">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center h-100">
-                    <a class="text-body me-3" href="{% url 'about' %}">About</a>
-                    <a class="text-body me-3" href="{% url 'contact' %}">Contact & Help Center</a>
-                    <a class="text-body me-3" href="{% url 'faq'%}">FAQs</a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-md-end text-center">
-                <div class="d-inline-flex align-items-center">
-                    <div class="btn-group mt-1">
-                        {% if not user.is_authenticated %}
-                        <div class="dropdown">
-                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Account
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{% url 'account_login' %}">Login</a></li>
-                              <li><a class="dropdown-item" href="{% url 'account_signup' %}">Create account</a></li>
-                            </ul>
-                          </div>
-                        {% else %}
-                        <a href="{% url 'account' %}" class="btn btn-sm btn-light"><i class="fa fa-user"></i> My account</a>
-                        {% endif %}
-                    </div>
-                    <div class="btn-group mx-2 mt-1">
-                        <button type="button" class="btn btn-sm btn-light {% if user.is_authenticated %}dropdown-toggle {% endif %}" data-toggle="dropdown">{% if user.is_authenticated %}{{user.account.exchange.initials}}{% else %}USD{% endif %}</button>
-                        {% if user.is_authenticated %}
-                        {% currency %}
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="d-inline-flex align-items-center d-block d-lg-none">
-                    
-                    <a href="{% url 'cart' %}" class="btn px-0 ms-3">
-                        <button type="button" class="btn btn-sm position-relative">
-                            <i class="fa-solid fa-cart-shopping text-warning fa-xl"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark">
-                                {% if user.is_authenticated %}{% cart_num %}{% else %}0{% endif %}
-                              <span class="visually-hidden">unread messages</span>
-                            </span>
-                          </button>
-                    </a>
-                </div>
+{% load customtags %} {% load static %}
+<div class="container-fluid">
+    <div class="row bg-light justify-content-between shadow-lg fixed-top py-1 px-xl-5" style="height: 45px;">
+        <div class="col-lg-6 d-none d-lg-block">
+            <div class="d-inline-flex align-items-center h-100">
+                <a class="text-body me-3" href="{% url 'about' %}">About</a>
+                <a class="text-body me-3" href="{% url 'contact' %}">Contact & Help Center</a>
+                <a class="text-body me-3" href="{% url 'faq'%}">FAQs</a>
             </div>
         </div>
-        <div style="height: 40px;"></div>
-        <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
-            <div class="col-lg-4">
-                <a href="{% url 'home'%}" class="text-decoration-none d-flex">
-                    <span class="h1 text-uppercase text-warning bg-dark px-2 ">Alke</span>
-                    <span class="h1 text-uppercase text-dark bg-warning px-2">Store</span>
+        <div class="col-lg-6 text-md-end text-center">
+            <div class="d-inline-flex align-items-center">
+                <div class="btn-group mt-1">
+                    {% if not user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'account_login' %}">Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'account_signup' %}">Create account</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'account' %}" class="btn btn-sm btn-light"><i class="fa fa-user"></i> My account</a>
+                    {% endif %}
+                </div>
+                <div class="btn-group mx-2 mt-1">
+                    <button type="button" class="btn btn-sm btn-light {% if user.is_authenticated %}dropdown-toggle {% endif %}" data-toggle="dropdown">
+                        {% if user.is_authenticated %}{{user.account.exchange.initials}}{% else %}USD{% endif %}
+                    </button>
+                    {% if user.is_authenticated %} {% currency %} {% endif %}
+                </div>
+            </div>
+            <div class="d-inline-flex align-items-center d-block d-lg-none">
+                <a href="{% url 'cart' %}" class="btn px-0 ms-3">
+                    <button type="button" class="btn btn-sm position-relative">
+                        <i class="fa-solid fa-cart-shopping text-warning fa-xl"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark">
+                            {% if user.is_authenticated %}{% cart_num %}{% else %}0{% endif %}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
                 </a>
             </div>
-            <div class="col-lg-4 col-6 text-left">
-                <form action="{% url 'shop' %}" method="get">
-                    <div class="input-group">
-                        <input type="text" required class="form-control" name="q" value="{{request.GET.q}}" placeholder="Search for products">
-                        <div class="input-group-append">
-                            
-                                <button class="btn btn-primary bg-transparent rounded-0 " type="submit">
-                                <i class="fa fa-search text-primary"></i>
-                                </button>
-                            
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-4 col-6 text-end">
-                <p class="m-0">Customer Service</p>
-                <h5 class="m-0">+012 345 6789</h5>
-            </div>
         </div>
     </div>
-    <!-- Topbar End -->
-
-
-    <!-- Navbar Start -->
-    <div class="container-fluid bg-dark mb-30">
-        <div class="row   py-2">
-            
-            <div class="col-lg-12">
-                <nav class="navbar navbar-expand-lg bg-dark navbar-dark  px-0">
-                    <a href="{% url 'home'%}" class="text-decoration-none d-flex mt-1  d-md-none">
-                        <span class="h1 text-uppercase text-warning bg-dark px-2 ">Alke</span>
-                        <span class="h1 text-uppercase text-dark bg-warning px-2">Store</span>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <div class="navbar-nav me-auto py-0">
-                            <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/'%} active{% endif %}">Home</a>
-                            <a href="{% url 'shop' %}" class="nav-item {% if request.path == '/shop/'%} active{% endif %} nav-link">Shop</a>
-
-                            <div class="dropdown">
-                                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Store
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="{% url 'cart' %}">Shopping cart</a></li>
-                                  <li><a class="dropdown-item" href="{% url 'checkout' %}">Checkout</a></li>
-                                </ul>
-                              </div>
-                            <a href="{% url 'contact' %}" class="nav-item {% if request.path == '/contact/'%} active{% endif %} nav-link">Contact</a>
-                        </div>
-                        <div class="navbar-nav ms-auto  py-0 d-none d-lg-block">
-                            
-                            <a href="{% url 'cart' %}" class="btn px-0 ms-3">
-                                <button type="button" class="btn btn-sm position-relative">
-                                    <i class="fa-solid fa-cart-shopping text-warning fa-xl"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle">
-                                        {% if user.is_authenticated %}{% cart_num %}{% else %}0{% endif %}
-                                      <span class="visually-hidden">unread messages</span>
-                                    </span>
-                                  </button>
-                            </a>
-                            
-                        </div>
+    <div style="height: 40px;"></div>
+    <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
+        <div class="col-lg-4">
+            <a href="{% url 'home'%}" class="text-decoration-none d-flex">
+                <span class="h1 text-uppercase text-warning bg-dark px-2">Alke</span>
+                <span class="h1 text-uppercase text-dark bg-warning px-2">Store</span>
+            </a>
+        </div>
+        <div class="col-lg-4 col-6 text-left">
+            <form action="{% url 'shop' %}" method="get">
+                <div class="input-group">
+                    <input type="text" required class="form-control" name="q" value="{{request.GET.q}}" placeholder="Search for products" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary bg-transparent rounded-0" type="submit">
+                            <i class="fa fa-search text-primary"></i>
+                        </button>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 col-6 text-end">
+            <p class="m-0">Customer Service</p>
+            <h5 class="m-0">+012 345 6789</h5>
         </div>
     </div>
-    <!-- Navbar End -->
+</div>
+<!-- Topbar End -->
 
+<!-- Navbar Start -->
+<div class="container-fluid bg-dark mb-30">
+    <div class="row py-2">
+        <div class="col-lg-12">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark px-0">
+                <a href="{% url 'home'%}" class="text-decoration-none d-flex mt-1 d-md-none">
+                    <span class="h1 text-uppercase text-warning bg-dark px-2">Alke</span>
+                    <span class="h1 text-uppercase text-dark bg-warning px-2">Store</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav me-auto py-0">
+                        <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/'%} active{% endif %}">Home</a>
+                        <a href="{% url 'shop' %}" class="nav-item {% if request.path == '/shop/'%} active{% endif %} nav-link">Shop</a>
+
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Store
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'cart' %}">Shopping cart</a></li>
+                                <li><a class="dropdown-item" href="{% url 'checkout' %}">Checkout</a></li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'contact' %}" class="nav-item {% if request.path == '/contact/'%} active{% endif %} nav-link">Contact</a>
+                    </div>
+                    <div class="navbar-nav ms-auto py-0 d-none d-lg-block">
+                        <a href="{% url 'cart' %}" class="btn px-0 ms-3">
+                            <button type="button" class="btn btn-sm position-relative">
+                                <i class="fa-solid fa-cart-shopping text-warning fa-xl"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle">
+                                    {% if user.is_authenticated %}{% cart_num %}{% else %}0{% endif %}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
