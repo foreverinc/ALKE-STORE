@@ -10,10 +10,10 @@ from django.contrib import messages
 def homepage(request):
     context = {}
     products = Product.objects.select_related('category').prefetch_related('review').all().order_by("-id")[:4]
-    # featured = Product.objects.filter(featured=True).prefetch_related('review').select_related('category').order_by("?")[0:4]
+    
     categories = Category.objects.all()
     context["products"] = products
-    # context["featured"] = featured
+    
     context['categories'] = categories
     return render(request, "base/index.html", context)
 

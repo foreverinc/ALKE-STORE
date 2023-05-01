@@ -96,111 +96,75 @@
     </div>
     <!-- Categories End -->
 
-    
+ 
 
 
 
-    <!-- Products Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span></h2>
-        <div class="row px-xl-5">
-            {% for item in products %}
-            {% if item.featured %}
-            <div class="col-lg-3 col-md-4 col-sm-6 position-relative ">
-                
-                <div class="product-item bg-light mb-4">
-                    <div class="product-img position-relative overflow-hidden">
-                        
-                        <img class="img-fluid w-100" src="{{item.product_img.url}}" alt="">
-                        <span class="bg-primary position-absolute px-1" style="right: 0;">-{{item.get_discount}}%</span>
-                    </div>
-                    <div class="text-center p-2" style="overflow: hidden;">
-                        <span class="h6 text-decoration-none text-truncate">{{item.name|truncatewords:4}}</span>
-                        <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
-                            {% else %}
-                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-3">
-                            {% include 'base/rating.html'%}
-                        </div>
-                    </div>
-                    <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
-                </div>
-               
+
+    <div class="container-fluid py-5">
+        <div class="container pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h6 class="text-warning text-uppercase">Top deals </h6>
+                <h1>FEATURED PRODUCTS</h1>
             </div>
+            <section class="slider mb-3 position-relative">
+                <div class="owl-carousel">
+                    {% for item in products %}
+            {% if item.featured %}
+            <div class="card d-card position-relative" style="margin-right: 1rem;">
+                <span class="position-absolute discount">
+                    <button type="button" class="btn btn-sm rounded-0 p-0 px-2 btn-warning position-relative">
+                        -{{item.get_discount}}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          %
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
+                    </span>
+                <img src="{{item.product_img.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h6 class="card-title text-center text-muted">{{item.name|truncatewords:4}}</h6>
+                  <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
+                    <h6 class="me-2">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>{% if item.original_price %}<small class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></small>{% endif %}
+                    {% else %}
+                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
+                </div>
+                <div class="text-center">
+                    {% include 'base/rating.html'%}
+                </div>
+                
+                </div>
+                <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
+              </div>
             {% endif %}
             {% endfor %}
+
+                    </div>
+            </section>
         </div>
     </div>
-    <!-- Products End -->
 
-<!-- Offer Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <div class="row px-xl-5">
-            <div class="col-12">
-                <div class="product-offer mb-30" style="height: 300px;">
-                    <img class="img-fluid" src="{% static 'img/st.jpeg' %}" alt="">
-                    <div class="offer-text">
-                        <h6 class="text-white text-uppercase">CRAZY TOP DEALS!!!</h6>
-                        <h3 class="text-white mb-3">SAVE MORE THAN 20% ON ALL PRODUCTS</h3>
-                        <a href="{% url 'shop'%}" class="btn btn-primary">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-            
+
+
+
+
+
+<div class="container-fluid bg-warning py-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h5>LIMITED TIME OFFER</h5>
+            <h6>This {% now "M" %}</h6>
+        </div>
+        <div>
+            <p class="text-center mb-1"><strong>Get 10% off your next shopping!</strong></p>
+            <p class="text-center mb-0">Use coupon code <strong>TRAVEL10</strong></p>
         </div>
     </div>
-    <!-- Offer End -->
-    
+</div>
 
 
-    <!-- Products Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">TOP DEALS</span></h2>
-        <div class="row px-xl-5 product-item-container">
-            {% for item in products %}
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1 position-relative">
-                <div class="product-item mb-4 bg-light " style="overflow: hidden;">
-                    <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{{item.get_url}}" alt="">
-                        <span class="bg-primary position-absolute px-1" style="right: 0;">-{{item.get_discount}}%</span>
-                    </div>
-                    <div class="text-center bg-light p-2">
-                        <span class="h6 text-decoration-none text-center text-truncate">{{item.name|truncatewords:4}}</span>
-                        <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
-                            {% else %}
-                            <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center mb-1">
-                            {% include 'base/rating.html' %}
-                        </div>
-                    </div>
-                    <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    <!-- Products End -->
 
 
-    <!-- Vendor Start -->
-    <!-- <div class="container-fluid py-5">
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel vendor-carousel">
-                    {% for vendor in vendors %}
-                    <div class="bg-light p-4">
-                        <img src="" alt="">
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Vendor End -->
 
 {% endblock %}
     
