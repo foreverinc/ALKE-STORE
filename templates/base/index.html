@@ -1,153 +1,168 @@
-{% extends 'base/base.html' %}
-{% block content %}
-{% load static %}
-{% load customtags %}
-    
+{% extends 'base/base.html' %} {% block content %} {% load static %} {% load customtags %}
+
 <!--Carosoul start -->
 
 <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="false">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{% static 'img/accesories.jpeg' %}" class="d-block caros" alt="fashion">
-        <div class="carousel-caption ">
-          <h5>Top Fashion Trends</h5>
-          <p>Stay in the know with the best fashion styles latest on the market</p>
-          <button class="btn btn-sm btn-success">Shop now</button>
+        <div class="carousel-item active">
+            <img src="{% static 'img/accesories.jpeg' %}" class="d-block caros" alt="fashion" />
+            <div class="carousel-caption">
+                <h5>Top Fashion Trends</h5>
+                <p>Stay in the know with the best fashion styles latest on the market</p>
+                <button class="btn btn-sm btn-success">Shop now</button>
+            </div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{% static 'img/book.jpg' %}" class="d-block caros" alt="health">
-        <div class="carousel-caption ">
-            <h5>Something new!!</h5>
-            <p>Explore our new book collection now!</p>
-            <button class="btn btn-sm btn-success">Check in</button>
-          </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{% static 'w.jpg' %}" class="d-block caros" alt="beauty">
-        <div class="carousel-caption ">
-            <h5>Alke-Store</h5>
-            <p>All in one market place.</p>
-            <button class="btn btn-sm btn-success">Shop now</button>
-          </div>
-      </div>
+        <div class="carousel-item">
+            <img src="{% static 'img/book.jpg' %}" class="d-block caros" alt="health" />
+            <div class="carousel-caption">
+                <h5>Something new!!</h5>
+                <p>Explore our new book collection now!</p>
+                <button class="btn btn-sm btn-success">Check in</button>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'w.jpg' %}" class="d-block caros" alt="beauty" />
+            <div class="carousel-caption">
+                <h5>Alke-Store</h5>
+                <p>All in one market place.</p>
+                <button class="btn btn-sm btn-success">Shop now</button>
+            </div>
+        </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </button>
-  </div>
+</div>
 
 <!---Carsoul end -->
 
-    
+<!--Feature start -->
+<div class="d-flex justify-content-center align-items-center text-center my-5 px-md-4" style="flex-wrap: wrap; row-gap: 1rem; column-gap: 2rem;">
+    <span class="d-flex align-items-center gap-1">
+        <i class="fa-solid fa-check text-warning"></i>
+        <small>Quality products</small>
+    </span>
+    <span class="d-flex align-items-center gap-1">
+        <i class="fa-solid fa-truck-fast text-warning"></i>
+        <small>Free shipping</small>
+    </span>
+    <span class="d-flex align-items-center gap-1">
+        <i class="fa-solid fa-right-left text-warning"></i>
+        <small>10 day return policy</small>
+    </span>
+    <span class="d-flex align-items-center gap-1">
+        <i class="fa-solid fa-phone-volume text-warning"></i>
+        <small>24 /7 support</small>
+    </span>
+</div>
+<!--Feature end -->
 
-    <!--Feature start -->
-    <div class="d-flex justify-content-between align-items-center text-center my-5 px-md-4">
-        <span class="d-flex align-items-center gap-1">
-            <i class="fa-solid fa-check text-warning"></i>
-            <small>Quality products</small>
-        </span>
-        <span class="d-flex align-items-center gap-1">
-            <i class="fa-solid fa-truck-fast text-warning"></i>
-            <small>Free shipping</small>
-        </span>
-        <span class="d-flex align-items-center gap-1">
-            <i class="fa-solid fa-right-left text-warning"></i>
-            <small>10 day return policy</small>
-        </span>
-        <span class="d-flex align-items-center gap-1">
-            <i class="fa-solid fa-phone-volume text-warning"></i>
-            <small>24 /7 support</small>
-        </span>
-    </div>
-    <!--Feature end -->
-
-
-    <!-- Categories Start -->
-    <div class="container-fluid pt-3">
-        <h2 class="text-uppercase text-center fw-bold text-warning">Categories <i class="fa-solid fa-circle-down   d-md-none fa-beat-fade " onclick="openCategories()"></i></h2>
-        <div class="row px-xl-5 mx-auto  pb-3 d-none d-md-flex" id="cats">
-            {% for category in categories %}
-            <div class="col-lg-3 card card-body btn text-start btn-outline-success shadow-lg col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="{% url 'shop' %}?category={{category.id}}">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-<img class="img-fluid " src="{% static category.image_name|add:".png" %}" style="transform: scale(.5);" alt="">
-                            
-                        </div>
-                        <div class="flex-fill pl-3 text-warning">
-                            <h6>{{category.name}}</h6>
-                        </div>
+<!-- Categories Start -->
+<div class="container-fluid pt-3">
+    <h2 class="text-uppercase text-center fw-bold text-warning">Categories <i class="fa-solid fa-circle-down d-md-none fa-beat-fade" onclick="openCategories()"></i></h2>
+    <div class="row px-xl-5 mx-auto pb-3 d-none d-md-flex" id="cats">
+        {% for category in categories %}
+        <div class="col-lg-3 card card-body btn text-start btn-outline-success shadow-lg col-md-4 col-sm-6 pb-1">
+            <a class="text-decoration-none" href="{% url 'shop' %}?category={{category.id}}">
+                <div class="cat-item d-flex align-items-center mb-4">
+                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                        <img class="img-fluid " src="{% static category.image_name|add:".png" %}" style="transform: scale(.5);" alt="">
                     </div>
-                </a>
-            </div>
-            {% endfor %}
+                    <div class="flex-fill pl-3 text-warning">
+                        <h6>{{category.name}}</h6>
+                    </div>
+                </div>
+            </a>
         </div>
+        {% endfor %}
     </div>
-    <!-- Categories End -->
+</div>
+<!-- Categories End -->
 
- 
+<hr style="width: 90%; margin: auto;" />
 
-
-
-
-    <div class="container-fluid py-5">
-        <div class="container pb-3">
-            <div class="text-center mb-3 pb-3">
-                <h6 class="text-warning text-uppercase">Top deals </h6>
-                <h1>FEATURED PRODUCTS</h1>
-            </div>
-            <section class="slider mb-3 position-relative">
-                <div class="owl-carousel">
-                    {% for item in products %}
-            {% if item.featured %}
-            <div class="card d-card position-relative" style="margin-right: 1rem;">
-                <span class="position-absolute discount">
-                    <button type="button" class="btn btn-sm rounded-0 p-0 px-2 btn-warning position-relative">
-                        -{{item.get_discount}}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          %
-                          <span class="visually-hidden">unread messages</span>
-                        </span>
-                    </button>
+<div class="container-fluid py-5">
+    <div class="container pb-3">
+        <div class="text-center mb-3 pb-3">
+            <h6 class="text-warning text-uppercase">Top deals</h6>
+            <h1>FEATURED PRODUCTS</h1>
+        </div>
+        <section class="slider mb-3 position-relative">
+            <div class="owl-carousel">
+                {% for item in products %}
+                {% if item.featured %}
+                <div class="card d-card position-relative" style="margin-right: 1rem;">
+                    <span class="position-absolute discount">
+                        <button type="button" class="btn btn-sm rounded-0 p-0 px-2 btn-warning position-relative">
+                            -{{item.get_discount}}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                %
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </button>
                     </span>
-                <img src="{{item.product_img.url}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h6 class="card-title text-center text-muted">{{item.name|truncatewords:4}}</h6>
-                  <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                    <h6 class="me-2">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>{% if item.original_price %}<small class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></small>{% endif %}
-                    {% else %}
-                    <h5 class="me-2">${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
-                </div>
-                <div class="text-center">
-                    {% include 'base/rating.html'%}
-                </div>
-                
-                </div>
-                <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
-              </div>
-            {% endif %}
-            {% endfor %}
+                    <img src="{{item.product_img.url}}" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                        <h6 class="card-title text-center text-muted">{{item.name|truncatewords:4}}</h6>
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            {% if user.is_authenticated %}
 
+                            <h6 class="me-2">
+                                {% if request.user.account.exchange.initials == 'USD' %}
+
+                                ${{item.price}}
+
+                                {% else %}
+
+                                {{item.price|convert:request.user.account.exchange.exchange}}
+
+                                 {{request.user.account.exchange}}
+
+                                 {% endif %}
+                            </h6>
+
+                            {% if item.original_price %}
+
+                            <small class="text-muted ml-2">
+                                <del>
+                                    {% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif
+                                    %}
+                                </del>
+                            </small>
+
+                            {% endif %} 
+
+                            {% else %}
+
+                            
+                            <h5 class="me-2">${{item.price}}</h5>
+                            {% if item.original_price %}
+                            <h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="text-center">
+                            {% include 'base/rating.html'%}
+                        </div>
                     </div>
-            </section>
-        </div>
+                    <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
     </div>
-
-
-
-
-
+</div>
 
 <div class="container-fluid bg-warning py-3">
     <div class="d-flex justify-content-between align-items-center">
@@ -162,13 +177,10 @@
     </div>
 </div>
 
-
-
 <script>
-    function openCategories(){
-    document.getElementById('cats').classList.remove('d-none')
-}
+    function openCategories() {
+        document.getElementById("cats").classList.remove("d-none");
+    }
 </script>
 
 {% endblock %}
-    
