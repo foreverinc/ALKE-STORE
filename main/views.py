@@ -128,7 +128,6 @@ def search_view(request):
 def subscribe(request):
     if request.POST:
         email = request.POST["email"]
-        print(email)
         messages.success(request, "Thanks for subscribing")
 
     return redirect("home")

@@ -40,6 +40,5 @@ def convert_currency(price, currency_exchange_rate):
     if currency_exchange_rate:
         rate=float(currency_exchange_rate)
         price=float(price)
-        print(rate)
         return round(price * rate, 2)
     return price
