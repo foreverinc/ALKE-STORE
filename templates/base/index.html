@@ -75,8 +75,8 @@
 
     <!-- Categories Start -->
     <div class="container-fluid pt-3">
-        <h2 class="text-uppercase text-center fw-bold text-warning">Categories</h2>
-        <div class="row px-xl-5 mx-auto pb-3">
+        <h2 class="text-uppercase text-center fw-bold text-warning">Categories <i class="fa-solid fa-circle-down   d-md-none fa-beat-fade " onclick="openCategories()"></i></h2>
+        <div class="row px-xl-5 mx-auto  pb-3 d-none d-md-flex" id="cats">
             {% for category in categories %}
             <div class="col-lg-3 card card-body btn text-start btn-outline-success shadow-lg col-md-4 col-sm-6 pb-1">
                 <a class="text-decoration-none" href="{% url 'shop' %}?category={{category.id}}">
@@ -127,7 +127,7 @@
                   <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
                     <h6 class="me-2">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>{% if item.original_price %}<small class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></small>{% endif %}
                     {% else %}
-                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
+                    <h5 class="me-2">${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
                 </div>
                 <div class="text-center">
                     {% include 'base/rating.html'%}
@@ -164,7 +164,11 @@
 
 
 
-
+<script>
+    function openCategories(){
+    document.getElementById('cats').classList.remove('d-none')
+}
+</script>
 
 {% endblock %}
     
