@@ -61,7 +61,8 @@ a {
 
   @media(max-width:898px){
     .d-card{
-      transform: scale(.9);
+      width: 160px !important;
+      margin: auto !important;
     }
   }
   .d-card:hover{
@@ -102,9 +103,14 @@ a {
   flex: 1;
 }
 
+.marking{
+  flex-wrap: wrap !important;
+  row-gap: 1rem !important;
+}
+
 @media(max-width:799px){
   .marking>*{
-    width: 180px;
+    width: 150px;
   }
   .marking{
     flex-wrap: wrap !important;
@@ -122,4 +128,15 @@ a {
 .catn:hover {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   transform: scale(1.05);
+}
+
+.d-card h5{
+  font-size: 1rem !important;
+  margin-bottom: 0 !important;
+}
+
+
+.d-card h6{
+  font-size: .8rem !important;
+  margin-bottom: 0 !important;
 }
