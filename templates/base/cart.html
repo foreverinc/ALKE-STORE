@@ -2,20 +2,33 @@
 {% block content %}
 {% load customtags %}
     <!-- Breadcrumb Start -->
-    <div class="container-fluid">
-        <div class="row px-xl-5">
-            <div class="col-12">
-                <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                    <span class="breadcrumb-item active">Shopping Cart</span>
-                </nav>
+    
+
+<div class="container">
+        <div class="row">
+            <div class="col-12 my-3">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+    <a class="breadcrumb-item text-dark" href="{% url 'shop' %}">Shop</a>
+    <li class="breadcrumb-item active" aria-current="page">Shopping cart</li>
+  </ol>
+</nav>
+
             </div>
         </div>
     </div>
+
+    
+    <!-- Breadcrumb End -->
+
+
+
+
+
     <!-- Breadcrumb End -->
     <div class="container mb-3" id="starter">
-        <a href="{% url 'shop' %}" class="btn btn-outline-dark"><i class="fa fa-arrow-left"></i> Continue shopping</a>
+        <a href="{% url 'shop' %}" class="btn rounded-0 border-1 border-dark"><i class="fa fa-arrow-left"></i> Continue shopping</a>
     </div>
     <!-- Cart Start -->
     <div class="container-fluid">
@@ -40,15 +53,15 @@
                                 <form action="{% url 'add' %}" method="post">
                                     {% csrf_token %}
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
-                                        <input type="number" name="itemId" value="{{item.id}}" hidden>
+                                        <input type="number" name="itemId"  value="{{item.id}}" hidden>
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-minus" name="action" value="remove" type="submit">
+                                            <button class="btn btn-sm btn-warning rounded-0 btn-minus" name="action" value="remove" type="submit">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="{{ item.quantity }}">
+                                        <input type="text" readonly class="form-control bg-white form-control-sm bg-secondary border-0 text-center" value="{{ item.quantity }}">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-plus" name="action" value="add" type="submit">
+                                            <button class="btn btn-sm btn-warning rounded-0 btn-plus" name="action" value="add" type="submit">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
@@ -65,15 +78,15 @@
             </div>
             <div class="col-lg-4">
                 <form class="mb-30" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" placeholder="Coupon Code">
                         <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
+                            <button class="btn btn-warning rounded-0">Apply Coupon</button>
                         </div>
                     </div>
                 </form>
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
-                <div class="bg-light p-30 mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class=" pe-3">Cart Summary</span></h5>
+                <div class="bg-light p-3 mb-5">
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
@@ -90,7 +103,7 @@
                             <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total|add:cart.get_shipping}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>
                             
                         </div>
-                        <a href="{% url 'checkout'%}" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
+                        <a href="{% url 'checkout'%}" class="btn btn-warning my-3 text-decoration-none fw-bold">Proceed To Checkout</a>
                     </div>
                 </div>
             </div>
