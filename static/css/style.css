@@ -34,7 +34,7 @@ a {
 
   .discount{
     top: 5px;
-    right: 0px;
+    right: 5px;
     z-index: 1000;
   }
 
@@ -49,15 +49,44 @@ a {
   .owl-nav .owl-prev {
     position: absolute;
     top: calc(40% - 25px);
-    left: -35px;
+    left: -20px;
     opacity: 1;
     font-size: 30px !important;
     z-index: 1;
   }
 
   .d-card{
-    transition: .6s;
+    transition: .6s ease-in-out;
+  }
+
+  @media(max-width:898px){
+    .d-card{
+      transform: scale(.9);
+    }
   }
   .d-card:hover{
     box-shadow: 0 0 10px black ;
   }
+
+
+  .tab {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+.tab-btn {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.tab-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+.tab.active .tab-content {
+  max-height: 1000px; /* adjust to desired maximum height */
+}

@@ -70,29 +70,30 @@
 <!--Feature end -->
 
     <!-- Categories Start -->
-    <div class="container-fluid pt-3">
-        <h2 class="text-uppercase text-center fw-bold text-warning">Categories <i class="fa-solid fa-circle-down   d-md-none fa-beat-fade " onclick="openCategories()"></i></h2>
-        <div class="row px-xl-5 mx-auto  pb-3 d-none d-md-flex" id="cats">
-            {% for category in categories %}
-            <div class="col-lg-3 card card-body btn text-start btn-outline-success shadow-lg col-md-4 col-sm-6 pb-1">
-                <a class="text-decoration-none" href="{% url 'shop' %}?category={{category.id}}">
-                    <div class="cat-item d-flex align-items-center mb-4">
-                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-<img class="img-fluid " src="{% static category.image_name|add:".png" %}" style="transform: scale(.5);" alt="">
-                            
-                        </div>
-                        <div class="flex-fill pl-3 text-warning">
-                            <h6>{{category.name}}</h6>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="tab">
+                    <button class="tab-btn" onclick="toggleTab()"><h5 class="text-warning fw-bold">Categories</h5></button>
+                    <div class="tab-content">
+                        <div class="p-2">
+                            {% for category in categories%}
+                            <div>
+                                <a href="" class="d-flex align-items-center">
+                                    <img class="img-fluid " src="{% static category.image_name|add:".png" %}" style="transform: scale(.5);" alt="">
+                                    <h5>{{category.name}}</h5>
+                                </a>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                </a>
+                </div>
+
             </div>
-            {% endfor %}
         </div>
     </div>
     <!-- Categories End -->
 
-<hr style="width: 90%; margin: auto;" />
 
 <div class="container-fluid py-5">
     <div class="container pb-3">
@@ -104,14 +105,11 @@
             <div class="owl-carousel">
                 {% for item in products %}
                 {% if item.featured %}
-                <div class="card d-card position-relative" style="margin-right: 1rem;">
+                <div class="card d-card position-relative">
                     <span class="position-absolute discount">
                         <button type="button" class="btn btn-sm rounded-0 p-0 px-2 btn-warning position-relative">
-                            -{{item.get_discount}}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                %
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
+                            -{{item.get_discount}} %
+                            
                         </button>
                     </span>
                 <img src="{{item.product_img.url}}" class="card-img-top" alt="...">

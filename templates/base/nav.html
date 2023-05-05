@@ -30,13 +30,20 @@
                     
                     
 
-
+                    {% if user.is_authenticated %}
                     <div class="dropdown">
                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if user.is_authenticated %}{{user.account.exchange.initials}}{% else %}USD{% endif %}
+                            {{user.account.exchange.initials}}
                         </button>
-                        {% if user.is_authenticated %} {% currency %} {% endif %}
-                      </div>
+                        {% currency %}
+                    </div>
+                    {% else %}
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm" onclick="return alert('Please login to change currency')" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            USD
+                        </button>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="d-inline-flex align-items-center d-block d-lg-none">
