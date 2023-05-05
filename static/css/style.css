@@ -92,3 +92,33 @@ a {
 }
 
 
+
+.contain {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cat-cards {
+  flex: 1;
+}
+
+@media(max-width:799px){
+  .marking>*{
+    width: 150px;
+  }
+  .marking{
+    flex-wrap: wrap !important;
+    column-gap: 2.5rem !important;
+    row-gap:1rem;
+  }
+
+}
+
+.catn{
+  transition: .4s;
+}
+
+.catn:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
