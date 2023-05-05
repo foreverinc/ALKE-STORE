@@ -36,39 +36,39 @@ for (var i = 0; i < stars.length; i++) {
     rating = parseInt(rated);
     if (rated === "1") {
       for (var j = 0; j < stars.length; j++) {
-        stars[j].classList.remove("text-primary");
+        stars[j].classList.remove("text-warning");
       }
-      stars[0].classList.add("text-primary");
+      stars[0].classList.add("text-warning");
     } else if (rated === "2") {
       for (var j = 0; j < stars.length; j++) {
-        stars[j].classList.remove("text-primary");
+        stars[j].classList.remove("text-warning");
       }
-      stars[0].classList.add("text-primary");
-      stars[1].classList.add("text-primary");
+      stars[0].classList.add("text-warning");
+      stars[1].classList.add("text-warning");
     } else if (rated === "3") {
       for (var j = 0; j < stars.length; j++) {
-        stars[j].classList.remove("text-primary");
+        stars[j].classList.remove("text-warning");
       }
-      stars[0].classList.add("text-primary");
-      stars[1].classList.add("text-primary");
-      stars[2].classList.add("text-primary");
+      stars[0].classList.add("text-warning");
+      stars[1].classList.add("text-warning");
+      stars[2].classList.add("text-warning");
     } else if (rated === "4") {
       for (var j = 0; j < stars.length; j++) {
-        stars[j].classList.remove("text-primary");
+        stars[j].classList.remove("text-warning");
       }
-      stars[0].classList.add("text-primary");
-      stars[1].classList.add("text-primary");
-      stars[2].classList.add("text-primary");
-      stars[3].classList.add("text-primary");
+      stars[0].classList.add("text-warning");
+      stars[1].classList.add("text-warning");
+      stars[2].classList.add("text-warning");
+      stars[3].classList.add("text-warning");
     } else if (rated === "5") {
       for (var j = 0; j < stars.length; j++) {
-        stars[j].classList.remove("text-primary");
+        stars[j].classList.remove("text-warning");
       }
-      stars[0].classList.add("text-primary");
-      stars[1].classList.add("text-primary");
-      stars[2].classList.add("text-primary");
-      stars[3].classList.add("text-primary");
-      stars[4].classList.add("text-primary");
+      stars[0].classList.add("text-warning");
+      stars[1].classList.add("text-warning");
+      stars[2].classList.add("text-warning");
+      stars[3].classList.add("text-warning");
+      stars[4].classList.add("text-warning");
     }
     document.getElementById('ratings').value = rating
   });

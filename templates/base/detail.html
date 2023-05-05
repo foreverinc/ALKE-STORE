@@ -27,7 +27,7 @@
 
 
 
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-md-5">
                 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -61,16 +61,16 @@
                             </div>
                         </div>
                         {% if user.is_authenticated %}
-                        <h3 class="font-weight-semi-bold" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h3>{% endif %}
+                        <h5 class="font-weight-semi-bold me-2" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
 
                         {% else %}
 
-                        <h3 class="font-weight-semi-bold" style="display:inline-block">${{item.price}}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h3>{% endif %}
+                        <h5 class="font-weight-semi-bold me-2" style="display:inline-block">${{item.price}}</h5>{% if item.original_price %}<h6 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
                         {% endif %}
                         
-                        <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#info">more</a></p>
+                        <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#!" onclick="showDescription()">read more</a></p>
                         {% if item.original_price %}
-                        <p class="text-info fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
+                        <p class="text-warning fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
                         
                         {% endif %}
                             {% if item.size %}
@@ -102,29 +102,14 @@
                             
                         </div>
                         {% endif %}
-                        <div class="d-flex align-items-center mb-4 pt-2">
-                            <div class="input-group quantity me-3" style="width: 130px;">
-                                <div class="input-group-btn">
-                                    <button role="button" data-action="remove" type="button" class="btn btn-warning btn-sm me-2 update-quantity">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" name="quantity" readonly min="1" id="quantity" class="form-control bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button role="button" data-action="add" type="button" class="btn btn-warning btn-sm ms-2 update-quantity">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
+
+                        <div class="d-flex align-items-center gap-5">
+                            <div class="d-flex align-items-center">
+                                <button role="button" type="button" class="btn rounded-0 btn-sm btn-success update-quantity" data-action="add"><i class="fa fa-plus"></i></button>
+                                <input type="text" id="quantity" value="1" style="width: 50px;" readonly min="1" class="text-center form-control form-control-sm rounded-0">
+                                <button type="button" class="btn btn-sm btn-danger update-quantity rounded-0" data-action="remove"><i class="fa fa-minus"></i></button>
                             </div>
-                            <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart me-1"></i> Add To
-                                Cart</button>
-                        </div>
-
-
-                        <div class="input-group mb-3" style="width: 100px;">
-                            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-minus"></i></button>
-                            <input type="text" name="quantity" readonly min="1" width="50px" id="quantity" value="1" class="form-control text-center">
-                            <button class="btn btn-outline-secondary" type="button"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-success rounded-0 px-3"><i class="fa fa-shopping-cart me-1"></i> Add To Cart</button>
                         </div>
                         <div class="d-flex pt-2">
                             <strong class="text-dark me-2">Share on:</strong>
@@ -148,135 +133,29 @@
         </div>
     </div>
 
-    <!-- Shop Detail Start -->
-    <div class="container-fluid pb-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-5 mb-30">
-                <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner bg-light">
-                        <div class="carousel-item active">
-                            <img class="w-100 h-100" src="{{item.get_url}}" alt="Image">
-                        </div>
-                        {% for image in images %}
-                        <div class="carousel-item">
-                            <img class="w-100 h-100" src="{{image.images.url}}" alt="Image">
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                        <i class="fa fa-2x fa-angle-left text-dark"></i>
-                    </a>
-                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                        <i class="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
+    <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" id="nav-1">
+                    <a class="nav-link text-decoration-none text-muted" aria-current="page" href="#!">Product Description</a>
+                </li>
+                <li class="nav-item" id="nav-2">
+                    <a class="nav-link text-decoration-none text-muted" href="#!">Additional Information</a>
+                </li>
+                <li class="nav-item" id="nav-3">
+                    <a class="nav-link text-decoration-none text-muted" href="#!">Reviews ({{item.review.count}})</a>
+                </li>
+            </ul>
+            <div class="card d-none rounded-0" id="tab-1">
+                <div class="card-body">
+                    <h4 class="mb-3" id="info">Product Description</h4>
+                    <p>{{item.description}}</p>
                 </div>
             </div>
-
-            <div class="col-lg-7 h-auto mb-30">
-                <div class="h-100 bg-light p-30">
-                    <form action="{% url 'update' item.pk %}" method="post">
-                        {% csrf_token %}
-                        <h3>{{item.name}}</h3>
-                        <div class="d-flex mb-3">
-                            <div class=" me-2">
-                                {% include 'base/rating.html'%}
-                            </div>
-                        </div>
-                        {% if user.is_authenticated %}
-                        <h3 class="font-weight-semi-bold" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h3>{% endif %}
-
-                        {% else %}
-
-                        <h3 class="font-weight-semi-bold" style="display:inline-block">${{item.price}}</h3>{% if item.original_price %}<h3 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h3>{% endif %}
-                        {% endif %}
-                        
-                        <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#info">more</a></p>
-                        {% if item.original_price %}
-                        <p class="text-info fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
-                        
-                        {% endif %}
-                            {% if item.size %}
-                        <div class="d-flex mb-3">
-                            <strong class="text-dark me-3">Sizes:</strong>
-                           
-                                {% for s in item.size %}
-                                <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" required class="custom-control-input" id="size_{{s}}" name="size" value="{{s}}">
-                                        <label class="custom-control-label" for="size_{{s}}">{{s}}</label>
-                                    </div>
-                                {% endfor %}
-                                
-                            
-                        </div>
-                        {% endif %}
-                        {% if item.color %}
-                        <div class="d-flex mb-4">
-                            <strong class="text-dark me-3">Colors:</strong>
-                            
-                                {% for c in item.color %}
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input required type="radio" class="custom-control-input" id="color_{{c}}" name="color" value="{{c}}">
-                                        <label class="custom-control-label" for="color_{{c}}">{{c}}</label>
-                                    </div>
-                                {% endfor %}
-
-                                
-                            
-                        </div>
-                        {% endif %}
-                        <div class="d-flex align-items-center mb-4 pt-2">
-                            <div class="input-group quantity me-3" style="width: 130px;">
-                                <div class="input-group-btn">
-                                    <button role="button" data-action="remove" type="button" class="btn btn-primary btn-minus update-quantity">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                <input type="text" name="quantity" readonly min="1" id="quantity" class="form-control bg-secondary border-0 text-center" value="1">
-                                <div class="input-group-btn">
-                                    <button role="button" data-action="add" type="button" class="btn btn-primary btn-plus update-quantity">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart me-1"></i> Add To
-                                Cart</button>
-                        </div>
-                        <div class="d-flex pt-2">
-                            <strong class="text-dark me-2">Share on:</strong>
-                            <div class="d-inline-flex">
-                                <a class="text-dark px-2" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="text-dark px-2" href="">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a class="text-dark px-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a class="text-dark px-2" href="">
-                                    <i class="fab fa-pinterest"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="bg-light p-30">
-                    <div class="nav nav-tabs mb-4">
-                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews ({{item.review.count}})</a>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="tab-pane-1">
-                            <h4 class="mb-3" id="info">Product Description</h4>
-                            <p>{{item.description}}</p>
-                        </div>
-                        <div class="tab-pane fade" id="tab-pane-2">
-                            <h4 class="mb-3">Additional Information</h4>
+            <div class="card d-none rounded-0" id="tab-2">
+                <div class="card-body">
+                    <h4 class="mb-3">Additional Information</h4>
                             <p></p>
                             <div class="row">
                                 <div class="col-md-6">
@@ -308,9 +187,11 @@
                                       </ul> 
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="tab-pane-3">
-                            <div class="row">
+                </div>
+            </div>
+            <div class="card d-none rounded-0" id="tab-3">
+                <div class="card-body">
+                    <div class="row">
                                 <div class="col-md-6">
                                     <h4 class="mb-4">{{item.review.count}} review(s) for {{item.name}}</h4>
                                     {% for u in item.review.all %}
@@ -379,15 +260,15 @@
                                     <form action="{% url 'review' item.pk %}" method="post">
                                         {% csrf_token %}
                                         <input type="number" required name="ratings" hidden id="ratings">
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="message">Your Review *</label>
                                             <textarea name="comment" required cols="30" rows="5" class="form-control"></textarea>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="name">Your Name *</label>
                                             <input required type="text" class="form-control" name="name">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mb-3">
                                             <label for="email">Your Email *</label>
                                             <input type="email" required name="email" class="form-control" id="email">
                                         </div>
@@ -397,47 +278,43 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+
+ 
     <!-- Shop Detail End -->
 
 
-    <!-- Products Start -->
-    <div class="container-fluid py-5">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel related-carousel">
-                    {% for item in others %}
-                    <div class="product-item bg-light position-relative">
-                        <div class="product-img position-relative overflow-hidden">
-                            <span class="bg-primary position-absolute px-1" style="right: 0;">-{{item.get_discount}}%</span>
-                            <img class="img-fluid w-100" src="{{item.product_img.url}}" alt="">
-                            
-                        </div>
-                        <div class="text-center py-4">
-                            <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                {% if user.is_authenticated %}
-                                <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
-                                {% endif %}
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                {% include 'base/rating.html'%}
-                            </div>
-                            <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Products End -->
+<script>
+/// Select all the tab nav links and tab cards
+const navLinks = document.querySelectorAll('.nav-link');
+const tabCards = document.querySelectorAll('.card');
 
+// Add a click event listener to each tab nav link
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault(); // prevent the default link behavior
+    // Get the ID of the clicked tab nav link
+    const targetId = e.target.parentElement.id.replace('nav', 'tab');
+    // Loop through all the tab cards and hide them
+    tabCards.forEach(card => {
+      card.classList.add('d-none');
+    });
+    // Display the card that corresponds to the clicked tab nav link
+    document.querySelector(`#${targetId}`).classList.remove('d-none');
+  });
+});
+
+function showDescription(){
+    
+}
+</script>
+    
     
 {% endblock %}
