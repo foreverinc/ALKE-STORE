@@ -1,5 +1,5 @@
 *{
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto Slab', serif;
 }
 a {
     color: #0077cc; 
@@ -16,7 +16,7 @@ a {
 
   .caros{
     width: 100%;
-    height: 40vh;
+    height: 30vh;
     object-fit: cover;
   }
 
