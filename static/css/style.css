@@ -104,11 +104,12 @@ a {
 
 @media(max-width:799px){
   .marking>*{
-    width: 150px;
+    width: 180px;
   }
   .marking{
     flex-wrap: wrap !important;
-    column-gap: 2.5rem !important;
+    column-gap: .5rem !important;
+    justify-content: space-evenly !important;
     row-gap:1rem;
   }
 
