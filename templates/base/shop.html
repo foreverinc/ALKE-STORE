@@ -1,6 +1,22 @@
 {% extends 'base/base.html' %}
 {% block content %}
 {% load customtags %}
+
+<style>
+    h5{
+  font-size: 1rem !important;
+  margin-bottom: 10px !important;
+}
+
+
+h6{
+  font-size: .8rem !important;
+  margin-bottom: 10px !important;
+}
+
+</style>
+
+
 <!-- Breadcrumb Start -->
     <div class="container">
         <div class="row">
@@ -90,7 +106,7 @@
                     </div> -->
                     {% for item in products %}
 
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="col-lg-2 col-md-4 col-sm-4 col-4 pb-1">
                         <div class="product-item bg-light mb-4 position-relative">
                             <div class="product-img position-relative overflow-hidden">
                                 <img class="img-fluid w-100" src="{{ item.product_img.url }}" alt="">
@@ -99,9 +115,9 @@
                             <div class="text-center py-4">
                                 <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
                                 <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                                    <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted ms-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
+                                    <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted "><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
                                     {% else %}
-                                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
+                                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ms-1"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     {% include 'base/rating.html'%}
