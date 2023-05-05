@@ -2,14 +2,17 @@
 {% block content %}
 {% load customtags %}
     <!-- Breadcrumb Start -->
-    <div class="container-fluid">
-        <div class="row px-xl-5">
-            <div class="col-12">
-                <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                    <span class="breadcrumb-item active">Checkout</span>
-                </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 my-3">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+    <a class="breadcrumb-item text-dark" href="{% url 'shop' %}">Shop</a>
+    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+  </ol>
+</nav>
+
             </div>
         </div>
     </div>
@@ -20,58 +23,58 @@
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-lg-8">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
-                <div class="bg-light p-30 mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class=" ">Billing Address</span></h5>
+                <div class="bg-light p-3 mb-5">
                     <div class="row">
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>First Name</label>
                             <input class="form-control" type="text" placeholder="John">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>Last Name</label>
                             <input class="form-control" type="text" placeholder="Doe">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>E-mail</label>
                             <input class="form-control" type="text" placeholder="example@email.com">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>Mobile No</label>
                             <input class="form-control" type="text" placeholder="+123 456 789">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>Address Line 1</label>
                             <input class="form-control" type="text" placeholder="123 Street">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>Address Line 2</label>
                             <input class="form-control" type="text" placeholder="123 Street">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>Country</label>
-                            <select class="custom-select">
+                            <select class="form-control">
                                 <option selected>United States</option>
                                 <option>Afghanistan</option>
                                 <option>Albania</option>
                                 <option>Algeria</option>
                             </select>
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>City</label>
                             <input class="form-control" type="text" placeholder="New York">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>State</label>
                             <input class="form-control" type="text" placeholder="New York">
                         </div>
-                        <div class="col-md-6 form-group">
+                        <div class="col-md-6 mb-3">
                             <label>ZIP Code</label>
                             <input class="form-control" type="text" placeholder="123">
                         </div>
-                        <div class="col-md-12 form-group">
+                        <div class="col-md-12 mb-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Create an account</label>
+                                <label class="custom-control-label" for="newaccount">Save as shipping address</label>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -82,52 +85,52 @@
                         </div>
                     </div>
                 </div>
-                <div class="collapse mb-5" id="shipping-address">
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Shipping Address</span></h5>
+                <div class="mb-5 d-none" id="shipping-address" >
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="">Shipping Address</span></h5>
                     <div class="bg-light p-30">
                         <div class="row">
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>First Name</label>
                                 <input class="form-control" type="text" placeholder="John">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>Last Name</label>
                                 <input class="form-control" type="text" placeholder="Doe">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>E-mail</label>
                                 <input class="form-control" type="text" placeholder="example@email.com">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>Mobile No</label>
                                 <input class="form-control" type="text" placeholder="+123 456 789">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>Address Line 1</label>
                                 <input class="form-control" type="text" placeholder="123 Street">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>Address Line 2</label>
                                 <input class="form-control" type="text" placeholder="123 Street">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>Country</label>
-                                <select class="custom-select">
+                                <select class="form-control">
                                     <option selected>United States</option>
                                     <option>Afghanistan</option>
                                     <option>Albania</option>
                                     <option>Algeria</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>City</label>
                                 <input class="form-control" type="text" placeholder="New York">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>State</label>
                                 <input class="form-control" type="text" placeholder="New York">
                             </div>
-                            <div class="col-md-6 form-group">
+                            <div class="col-md-6 mb-3">
                                 <label>ZIP Code</label>
                                 <input class="form-control" type="text" placeholder="123">
                             </div>
@@ -136,8 +139,8 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
-                <div class="bg-light p-30 mb-5">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="">Order Total</span></h5>
+                <div class="bg-light p-3 mb-5">
                     <div class="border-bottom">
                         <h6 class="mb-3">Products</h6>
                         {% for item in items %}
@@ -168,32 +171,43 @@
                     </div>
                 </div>
                 <div class="mb-5">
-                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
-                    <div class="bg-light p-30">
-                        <div class="form-group">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="">Payment</span></h5>
+                    <div class="bg-light p-3">
+                        <div class="mb-3">
                             <div class="custom-control custom-radio">
                                 <input type="radio" class="custom-control-input" name="payment" id="paypal">
                                 <label class="custom-control-label" for="paypal">Paypal</label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-radio">
                                 <input type="radio" class="custom-control-input" name="payment" id="directcheck">
                                 <label class="custom-control-label" for="directcheck">Direct Check</label>
                             </div>
                         </div>
-                        <div class="form-group mb-4">
+                        <div class="mb-3 mb-4">
                             <div class="custom-control custom-radio">
                                 <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
                                 <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
                             </div>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
+                        <button class="btn rounded-0 btn-warning fw-bold">Place Order</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Checkout End -->
+
+<script>
+    document.getElementById('shipto').addEventListener('change', function() {
+        var shippingAddress = document.getElementById('shipping-address');
+        if (this.checked) {
+            shippingAddress.classList.remove('d-none');
+        } else {
+            shippingAddress.classList.add('d-none');
+        }
+    });
+</script>
 
 {% endblock %}
