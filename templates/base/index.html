@@ -14,7 +14,7 @@
             <div class="carousel-caption">
                 <h5>Top Fashion Trends</h5>
                 <p>Stay in the know with the best fashion styles latest on the market</p>
-                <button class="btn btn-sm btn-success">Shop now</button>
+                <a href="{% url 'shop' %}" class="btn btn-sm btn-success">Shop now</a>
             </div>
         </div>
         <div class="carousel-item">
@@ -22,7 +22,7 @@
             <div class="carousel-caption">
                 <h5>Something new!!</h5>
                 <p>Explore our new book collection now!</p>
-                <button class="btn btn-sm btn-success">Check in</button>
+                <a href="{% url 'shop' %}?category=3" class="btn btn-sm btn-success">Check in</a>
             </div>
         </div>
         <div class="carousel-item">
@@ -30,7 +30,7 @@
             <div class="carousel-caption">
                 <h5>Alke-Store</h5>
                 <p>All in one market place.</p>
-                <button class="btn btn-sm btn-success">Shop now</button>
+                <a href="{% url 'shop' %}" class="btn btn-sm btn-success">Shop now</a>
             </div>
         </div>
     </div>

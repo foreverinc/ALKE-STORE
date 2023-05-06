@@ -1,140 +1,127 @@
-{% extends 'base/base.html' %}
-{% block content %}
-{% load customtags %}
+{% extends 'base/base.html' %} {% block content %} {% load customtags %}
 
 <style>
-    h5{
-  font-size: 1rem !important;
-  margin-bottom: 10px !important;
-}
+    h5 {
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+    }
 
-
-h6{
-  font-size: .8rem !important;
-  margin-bottom: 10px !important;
-}
-
+    h6 {
+        font-size: 0.8rem !important;
+        margin-bottom: 10px !important;
+    }
 </style>
 
-
 <!-- Breadcrumb Start -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12 my-3">
-                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
-    <li class="breadcrumb-item active" href="{% url 'shop' %}">Shop</li>
-    
-  </ol>
-</nav>
-
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 my-3">
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+                    <li class="breadcrumb-item active" href="{% url 'shop' %}">Shop</li>
+                </ol>
+            </nav>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-
-
-    <!-- Shop Start -->
-    <div class="container-fluid">
-        <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            
-            <div class="col-lg-3 col-md-4 d-none d-md-block">
-                
-                <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="">Filter by price</span></h5>
-                <div class="bg-light p-4 mb-30">
-  <form action="{% url 'shop' %}" method="post">
-    {% csrf_token %}
-    <a href="{% url 'shop'%}?price=A">Under $25</a><br>
-    <a href="{% url 'shop' %}?price=B">$25 - $50</a>
-    <div class="row mt-2 g-3 align-items-center">
-        <div class="col">
-            <input type="number" value="{{request.POST.min}}" required name="min" class="form-control p-1" style="border-radius: 5px;" placeholder="$Min" aria-label="Min">
-        </div>
-        <div class="col">
-            <input type="number" value="{{request.POST.max}}" required style="border-radius: 5px;" name="max" class="form-control p-1" placeholder="$Max" aria-label="Max">
-        </div>
-        <div class="col text-center">
-           <button type="submit" class="btn btn-sm btn-warning">Go</button>
-        </div>
-    </div>
-  </form>
 </div>
+<!-- Breadcrumb End -->
 
-                <!-- Price End -->
-             
-                
+<!-- Shop Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
 
-                
-                
-            </div>
-            
-            <!-- Shop Sidebar End -->
-
-
-            <!-- Shop Product Start -->
-            <div class="col-lg-9 col-md-8">
-                <div class="row pb-3">
-                    
-                    
-                    {% for item in products %}
-
-                    <div class="col-lg-2 col-md-4 col-sm-4 col-4 pb-1">
-                        <div class="product-item bg-light mb-4 position-relative">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="{{ item.product_img.url }}" alt="">
-                                
-                            </div>
-                            <div class="text-center py-4">
-                                <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
-                                <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                                    <h5>{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 class="text-muted "><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
-                                    {% else %}
-                                    <h5>${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ms-1"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center mb-1">
-                                    {% include 'base/rating.html'%}
-                                </div>
-                            </div>
-                            <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
+        <div class="col-lg-3 col-md-4 d-none d-md-block">
+            <!-- Price Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="">Filter by price</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form action="{% url 'shop' %}" method="post">
+                    {% csrf_token %}
+                    <a href="{% url 'shop'%}?price=A">Under $25</a><br />
+                    <a href="{% url 'shop' %}?price=B">$25 - $50</a>
+                    <div class="row mt-2 g-3 align-items-center">
+                        <div class="col">
+                            <input type="number" value="{{request.POST.min}}" required name="min" class="form-control p-1" style="border-radius: 5px;" placeholder="$Min" aria-label="Min" />
+                        </div>
+                        <div class="col">
+                            <input type="number" value="{{request.POST.max}}" required style="border-radius: 5px;" name="max" class="form-control p-1" placeholder="$Max" aria-label="Max" />
+                        </div>
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-sm btn-warning">Go</button>
                         </div>
                     </div>
-                    {% endfor %}
-                    <div class="col-12">
-  <nav>
-    <ul class="pagination justify-content-center">
-      {% if products.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a></li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-      {% endif %}
-      {% for i in products.paginator.page_range %}
-      {% if products.number == i %}
-      <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
-      {% else %}
-      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-      {% endfor %}
-      {% if products.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
-      {% else %}
-      <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
+                </form>
+            </div>
 
+            <!-- Price End -->
+        </div>
+
+        <!-- Shop Sidebar End -->
+
+        <!-- Shop Product Start -->
+        <div class="col-lg-9 col-md-8">
+            <div class="row pb-3">
+                {% for item in products %}
+
+                <div class="col-lg-2 col-md-4 col-sm-4 col-4 pb-1">
+                    <div class="product-item bg-light mb-4 position-relative">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ item.product_img.url }}" alt="" />
+                        </div>
+                        <div class="text-center py-4">
+                            <h6 class="h6 text-decoration-none text-truncate" href="">{{item.name|truncatewords:4}}</h6>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                {% if user.is_authenticated %}
+                                <h5>{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}</h5>
+                                {% if item.original_price %}
+                                <h6 class="text-muted">
+                                    <del>
+                                        {{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}
+                                    </del>
+                                </h6>
+                                {% endif %} {% else %}
+                                <h5>${{item.price}}</h5>
+                                {% if item.original_price %}
+                                <h6 class="text-muted ms-1"><del>${{item.original_price}}</del></h6>
+                                {% endif %}{% endif %}
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                {% include 'base/rating.html'%}
+                            </div>
+                        </div>
+                        <a href="{% url 'detail' item.pk %}" class="stretched-link"></a>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            {% if products.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a></li>
+                            {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            {% endif %} {% for i in products.paginator.page_range %} {% if products.number == i %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+                            {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %} {% endfor %} {% if products.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                            {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div>
             </div>
-            <!-- Shop Product End -->
         </div>
+        <!-- Shop Product End -->
     </div>
-    <!-- Shop End -->
+</div>
+<!-- Shop End -->
 <script>
-  function showFilterButton() {
-    document.getElementById("filter-button").style.display = "block";
-  }
+    function showFilterButton() {
+        document.getElementById("filter-button").style.display = "block";
+    }
 </script>
 {% endblock %}

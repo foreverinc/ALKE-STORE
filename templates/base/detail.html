@@ -68,7 +68,7 @@
                         <h5 class="font-weight-semi-bold me-2" style="display:inline-block">${{item.price}}</h5>{% if item.original_price %}<h6 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
                         {% endif %}
                         
-                        <p class="mb-4">{{ item.description|truncatewords:20 }} <a href="#!" onclick="showDescription()">read more</a></p>
+                        <p class="mb-4">{{ item.description|truncatewords:20|safe}} <a href="#!" onclick="showDescription()">read more</a></p>
                         {% if item.original_price %}
                         <p class="text-warning fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
                         
@@ -150,7 +150,7 @@
             <div class="card d-none rounded-0" id="tab-1">
                 <div class="card-body">
                     <h4 class="mb-3" id="info">Product Description</h4>
-                    <p>{{item.description}}</p>
+                    <p>{{item.description|safe}}</p>
                 </div>
             </div>
             <div class="card d-none rounded-0" id="tab-2">
@@ -159,6 +159,7 @@
                             <p></p>
                             <div class="row">
                                 <div class="col-md-6">
+                                    {{item.specification|safe}}
                                     <ul class="list-group list-group-flush">
                                         {% if item.material %}
                                         <li class="list-group-item px-0">

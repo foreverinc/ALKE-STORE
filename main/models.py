@@ -3,7 +3,7 @@ import uuid
 from accounts.models import Account
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
-from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
 
 
 class Category(models.Model):
@@ -61,13 +61,14 @@ class Product(models.Model):
     digital = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
     original_price = models.DecimalField(max_digits=10000, decimal_places=2, blank=True, null=True)
-    description = models.TextField(verbose_name='Description')
+    description = RichTextField(verbose_name='Description')
     special_offer = models.BooleanField(default=False)
     color=MultiSelectField(choices=COLORS,max_length=100,max_choices=20,null=True,blank=True)
     size=MultiSelectField(choices=SIZE,max_length=100,max_choices=20,null=True,blank=True)
     manufacturer = models.CharField(max_length=200,null=True)
     material=models.CharField(max_length=200,blank=True,null=True)
     price_label=models.CharField(max_length=3,null=True,choices=PRICE_LABELS)
+    specification = RichTextField(null=True)
 
     
         

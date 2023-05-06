@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'multiselectfield',
     "crispy_bootstrap5",
+    'ckeditor'
 ]
 
 SITE_ID=1
