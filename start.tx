@@ -11,3 +11,7 @@ for c in categories:
 name=['','','','','','','','','','','','']
 
 
+from accounts.models import Currency
+new_c=Currency.objects.create(name='USA Dollars',initials='USD',exchange=1)
+new_c.save()
+
