@@ -1,0 +1,39 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<style>
+  .wraper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
+</style>
+
+<div class="wraper">
+  <div class="spinner-border text-primary" role="status" style="width: 50px;height:50px;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<form method="post" id="form">
+    {% csrf_token %}
+
+</form>
+
+<script>
+  
+  const form=document.getElementById("form");
+  window.onload=function() {
+    form.submit();
+  };
+  
+</script>
+
+
+{% endblock %}

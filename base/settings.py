@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'multiselectfield',
+    "crispy_bootstrap5",
 ]
 
 SITE_ID=1
@@ -198,3 +199,8 @@ ACCOUNT_LOGOUT_REDIRECT_URL ='account_login'
 LOGIN_REDIRECT_URL='home'
 ACCOUNT_AUTHENTICATION_METHOD='username_email'
 ACCOUNT_USERNAME_MIN_LENGTH =4
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

@@ -1,0 +1,76 @@
+{% extends "account/base.html" %} {% load crispy_forms_tags %} {% load i18n %} {% load account socialaccount %} {% block title %}Create account | Elate Inc.{% endblock %} {% block content %}
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Welcome to Study Buddy</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="spinner-border text-primary" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %} {{ form|crispy }} {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+    <div class="form-check mt-3 mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="accept" />
+        <label class="form-check-label" for="accept"> I accept to Alke-Store's <a href="">Terms and Conditions</a> </label>
+    </div>
+
+    <div class="container mb-5">
+					<div class="row">
+						<div class="col-12 d-grid gap-2 my-3 mx-auto">
+							<button class="primaryAction btn btn-primary" id="subBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="submit">{% trans "Create account" %}</button>
+						</div>
+					</div>
+				</div>
+                
+</form>
+
+{% get_providers as socialaccount_providers %} {% if socialaccount_providers %}
+
+<div class="socialaccount_ballot">
+    <ul class="socialaccount_providers">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %} {% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
+<div class="text-center">
+    <span class="text-center">Already have an account? <a href="{% url 'account_login'%}">Login</a></span>
+</div>
+<br />
+<br />
+
+<script>
+    const accept = document.getElementById("accept");
+    const subBtn = document.getElementById("subBtn");
+    subBtn.disabled = true;
+    accept.addEventListener("change", function () {
+        if (accept.checked) {
+            subBtn.disabled = false;
+        } else {
+            subBtn.disabled = true;
+        }
+    });
+</script>
+
+{% endblock %}

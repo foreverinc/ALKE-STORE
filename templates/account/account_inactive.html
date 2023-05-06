@@ -1,0 +1,100 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
+
+{% block content %}
+
+<div >
+    <h5 id="content">Your account has been scheduled for deletion however this can be undone by  retrieving your account before 30 days</h5>
+</div>
+
+
+<form action="{% url 'cancel-account'%}" method="post" class="d-none" id="form">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Username or Email-Address</label>
+        <input type="text" class="form-control" name="username" id="exampleFormControlInput1" placeholder="username or email">
+    </div>
+    <button type="submit" id="otherBtn" class="btn btn-warning">Retrive</button>
+</form>
+
+<div class="d-grid gap-2 my-5">
+<button class="btn btn-warning fw-bold" id="Btn" onclick="activate()"> Retrieve account</button>
+</div>
+
+
+<style>
+    .loader{
+        
+        flex-direction: column-reverse;
+        gap: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .loader::after{
+        content: '';
+
+        width: 75px;
+        height: 75px;
+        border: 15px solid #dddddd;
+        border-top-color: rgb(14, 121, 156);
+        border-radius: 50%;
+        animation: loading .75s ease infinite;
+    }
+
+    @keyframes loading {
+        from {
+            transform: rotate(0turn);
+        }
+        to {
+            transform: rotate(1turn);
+        }
+
+    }
+
+</style>
+<div class="d-none" id="loader">
+  <div class="loader">
+    <h1>Retriving account...</h1>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+    const Btn = document.getElementById('Btn');
+    const loader=document.getElementById('loader');
+    const otherBtn=document.getElementById('otherBtn');
+    const form = document.getElementById('form');
+    const content=document.getElementById('content');
+
+    function activate(){
+        
+        
+        
+        if (form.classList.contains('d-none')){
+            form.classList.remove('d-none')
+            content.innerText='Use your username or email address to retrive your account'
+            Btn.style.display='none'
+
+        }else{
+            form.classList.add('d-none')
+        }
+    }
+    otherBtn.addEventListener('click', function(){
+        loader.classList.remove('d-none');
+        content.innerText=''
+        form.classList.add('d-none')
+    })
+</script>
+{% endblock %}

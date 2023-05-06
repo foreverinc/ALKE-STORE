@@ -1,0 +1,42 @@
+{% load socialaccount %}
+{% load static %}
+{% get_providers as socialaccount_providers %}
+
+{% for provider in socialaccount_providers %}
+{% if provider.id == "openid" %}
+{% for brand in provider.get_brands %}
+
+<li style="list-style-type: none !important;">
+  <a title="{{brand.name}}" 
+     class="socialaccount_provider {{provider.id}} {{brand.id}}" 
+     href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+     >{{brand.name}}</a>
+</li>
+{% endfor %}
+{% endif %}
+
+<style>
+    .g-logo{
+    width: 20px;
+    height: 20px;
+  }
+  
+
+</style>
+
+
+<li>
+<div class="container">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <a title="{{provider.name}}" class=" btn btn-light shadow socialaccount_provider text-decoration-none {{provider.id}} d-flex align-items-center gap-3 justify-content-center" 
+     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+     
+     <img src="{% static 'img/g-logo.png'%}" style="width: 20px;height:20px" alt=""> Continue with Google
+
+  </a>
+        </div>
+    </div>
+</div>
+</li>
+{% endfor %}
