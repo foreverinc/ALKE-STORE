@@ -4,6 +4,7 @@ from accounts.models import Account
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Category(models.Model):
@@ -168,4 +169,38 @@ class OrderItem(models.Model):
         return self.product.name
     
 
-    
+class ShippingAddress(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    saved=models.BooleanField(default=False)
+    first_name=models.CharField(max_length=200)
+    last_name=models.CharField(max_length=200)
+    email=models.EmailField(max_length=200)
+    phone=PhoneNumberField()
+    address1=models.CharField(max_length=200)
+    address2=models.CharField(max_length=200,blank=True,null=True)
+    country=models.CharField(max_length=200)
+    city=models.CharField(max_length=200)
+    state=models.CharField(max_length=200)
+    zipcode=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.first_name +'' + self.last_name
+
+class BillingAddress(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    saved=models.BooleanField(default=False)
+    first_name=models.CharField(max_length=200)
+    last_name=models.CharField(max_length=200)
+    email=models.EmailField(max_length=200)
+    phone=PhoneNumberField()
+    address1=models.CharField(max_length=200)
+    address2=models.CharField(max_length=200,blank=True,null=True)
+    country=models.CharField(max_length=200)
+    city=models.CharField(max_length=200)
+    state=models.CharField(max_length=200)
+    zipcode=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.first_name +'' + self.last_name
+
+        
