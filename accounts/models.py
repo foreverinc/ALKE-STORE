@@ -25,11 +25,13 @@ class Account(models.Model):
     
     
 
-
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
     """
     Create a new account for the user whenever a new user is created.
     """
     if created:
-        Account.objects.create(user=instance)
+        usd_currency = Currency.objects.get(initials='USD')
+        account = Account.objects.create(user=instance, exchange=usd_currency)
+        account.save()
+
