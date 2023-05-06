@@ -188,3 +188,4 @@ def about(request):
 
 def faq(request):
     return render(request, "base/faq.html")
+
