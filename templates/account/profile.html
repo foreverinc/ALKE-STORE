@@ -7,12 +7,19 @@
     <div class="main-body">
     
           <!-- Breadcrumb -->
-          <nav aria-label="breadcrumb" class="main-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-            </ol>
-          </nav>
+          <div class="container">
+        <div class="row">
+            <div class="col-12 my-3">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+  </ol>
+</nav>
+
+            </div>
+        </div>
+    </div>
           <!-- /Breadcrumb -->
     
           <div class="row gutters-sm">
@@ -67,7 +74,7 @@
                   
                   <div class="row">
                     <div class="col-sm-12">
-                      <button onclick="edit()" class="btn btn-info">Edit</button>
+                      <button onclick="edit()" class="btn btn-warning rounded-0">Edit</button>
                     </div>
                   </div>
                   </div>
@@ -77,7 +84,7 @@
                   <div id="other-edit" class="d-none">
                 <div class="row align-items-center">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Email Address</h6>
+                      <h6 class="mb-2">Email Address</h6>
                     </div>
                     <input class="col-sm-9 form-control" name="email" value="{{user.email}}">
                   
@@ -85,14 +92,14 @@
                   <hr>
                   <div class="row align-items-center">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Phone number</h6>
+                      <h6 class="mb-2">Phone number</h6>
                     </div>
                     <input class="col-sm-9 form-control" name="phone" value="{{user.account.phone_number}}">
                   </div>
                   <hr>
                   <div class="row align-items-center">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Currency</h6>
+                      <h6 class="mb-2">Currency</h6>
                     </div>
                     {% for c in cs %}
                     <div class="form-check">
