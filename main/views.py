@@ -4,6 +4,8 @@ from .models import Product, Cart, OrderItem, Category, ProductImage, Review,Shi
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -230,13 +232,42 @@ def shipping(request):
 
 
 
+
+
+
 def payment_confirmed(request):
     # Get the form data from the POST request
     cart_id = request.POST['cart']
     cart = Cart.objects.get(transaction_id=cart_id)
+    cartitems = cart.cartitems.all()
+    
     cart.complete=True
     cart.save()
-    return redirect('shop')
+    shipping_address = ShippingAddress.objects.get(cart=cart)
+    subject = 'Completed payment'
+
+    item_details = ""
+    for item in cartitems:
+        name = item.product.name
+        size=item.size
+        quantity=item.quantity
+        price=item.product.price
+        color=item.color
+        item_details += f"\n{quantity} {name}(s)\nPrice: {price}\nColor: {color}\nSize: {size}\n"
+
+    message = f'User: {cart.user.username} [First name: {shipping_address.first_name} | Last name: {shipping_address.last_name}] has paid ${cart.get_cart_total} and a shipping fee of ${cart.get_shipping} for {cart.get_cart_items} items\n\nSHIPPING ADDRESS\nStreet: {shipping_address.street}\nCity: {shipping_address.city}\nCountry: {shipping_address.country}\nEmail: {shipping_address.email}\nPhone: {shipping_address.phone}\nAppartment or others: {shipping_address.other}\nZip Code: {shipping_address.zipcode}\n\nITEM DETAILS{item_details}'
+
+    from_email = 'foreverinc.dev@gmail.com'
+    recipient_list = ['tawee.drake@gmail.com']
+
+    try:
+        send_mail(subject, message, from_email, recipient_list)
+    except Exception as e:
+        print(e)
+        return HttpResponse('An error occurred while sending the email')
+
+    return HttpResponse('Payment confirmed. Thank you for your purchase!')
+
 
 
 def order_view(request,pk):
@@ -245,3 +276,6 @@ def order_view(request,pk):
 
     context = {"items": cartitems, "cart": cart}
     return render(request,'base/order.html',context)
+
+
+
