@@ -125,24 +125,30 @@
                 
               </div>
 
-              <div class="row gutters-sm">
-                <div class="col-sm-6 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3">Pending orders</h6>
-                      
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 mb-3">
-                  <div class="card h-100">
-                    <div class="card-body">
-                      <h6 class="d-flex align-items-center mb-3">Completed orders</h6>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="card">
+  <div class="card-body">
+    <h5>Placed Orders</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Date</th>
+          <th>Number of Items</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in placed_orders %}
+        <tr>
+          <td><i class="fa-solid fa-check text-success"></i> <a href="{% url 'order' order.transaction_id %}">{{ order.transaction_id }}</a></td>
+          <td>{{ order.date_ordered }}</td>
+          <td>{{ order.get_cart_items }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
 
 

@@ -130,7 +130,9 @@ class Cart(models.Model):
     def get_shipping(self):
         orders=self.cartitems.all()
         total=sum([item.get_total for item in orders])
-        if total >100:
+        if total==0:
+            shipping=0
+        elif total >100:
             shipping=30
         else:
             shipping=50
@@ -170,37 +172,17 @@ class OrderItem(models.Model):
     
 
 class ShippingAddress(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    saved=models.BooleanField(default=False)
+    cart=models.ForeignKey(Cart, on_delete=models.CASCADE,null=True)
     first_name=models.CharField(max_length=200)
     last_name=models.CharField(max_length=200)
     email=models.EmailField(max_length=200)
     phone=PhoneNumberField()
-    address1=models.CharField(max_length=200)
-    address2=models.CharField(max_length=200,blank=True,null=True)
+    street=models.CharField(max_length=200)
+    other=models.CharField(max_length=200,blank=True,null=True)
     country=models.CharField(max_length=200)
     city=models.CharField(max_length=200)
-    state=models.CharField(max_length=200)
     zipcode=models.CharField(max_length=200)
 
     def __str__(self):
         return self.first_name +'' + self.last_name
 
-class BillingAddress(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
-    saved=models.BooleanField(default=False)
-    first_name=models.CharField(max_length=200)
-    last_name=models.CharField(max_length=200)
-    email=models.EmailField(max_length=200)
-    phone=PhoneNumberField()
-    address1=models.CharField(max_length=200)
-    address2=models.CharField(max_length=200,blank=True,null=True)
-    country=models.CharField(max_length=200)
-    city=models.CharField(max_length=200)
-    state=models.CharField(max_length=200)
-    zipcode=models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.first_name +'' + self.last_name
-
-        

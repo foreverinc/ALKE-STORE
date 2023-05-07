@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Currency
+from main.models import Cart
 
 
 
@@ -8,6 +9,7 @@ from .models import Currency
 def profile_view(request):
     cs=Currency.objects.all()
     user=request.user
+    placed_orders=Cart.objects.filter(user=user,complete=True)
     if request.POST:
         email=request.POST.get('email', None)
         phone=request.POST.get('phone',None)
@@ -27,6 +29,7 @@ def profile_view(request):
     context={
         'user':user,
         'cs':cs,
+        'placed_orders':placed_orders,
     }
     return render(request, 'account/profile.html',context)
 

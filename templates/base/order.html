@@ -1,0 +1,159 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% load customtags %}
+    <!-- Breadcrumb Start -->
+    
+
+<div class="container">
+        <div class="row">
+            <div class="col-12 my-3">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <a class="breadcrumb-item text-dark" href="{% url 'home' %}">Home</a>
+    <a class="breadcrumb-item text-dark" href="{% url 'shop' %}">Shop</a>
+    <li class="breadcrumb-item active" aria-current="page">Shopping history</li>
+  </ol>
+</nav>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Breadcrumb End -->
+
+
+
+
+
+    <!-- Breadcrumb End -->
+    <div class="container mb-3" id="starter">
+        <a href="{% url 'shop' %}" class="btn rounded-0 border-1 border-dark"><i class="fa fa-arrow-left"></i> Back shopping</a>
+    </div>
+    <!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+                        {% for item in items %}
+                        <tr>
+                            <td class="align-middle"><img src="{{item.product.product_img.url}}" alt="" style="width: 50px;"> {{item.product.name|truncatewords:2}}</td>
+                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.product.price}}{% else %}{{item.product.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
+                            <td class="align-middle">
+                                <form action="{% url 'add' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                                        <h6>{{item.quantity}}</h6>
+                                        
+                                    </div>
+                                </form>
+
+                            </td>
+                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.get_total}}{% else %}{{item.get_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
+                            <td class="align-middle"><button type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" onclick="review('{{item.product.name}}')" data-product="{{item.product.name}}" id="review-{{item.product.name}}" aria-controls="staticBackdrop" data-id="{{item.product.id}}" class="btn btn-sm btn-warning">Write a review</button></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class=" pe-3">Cart Summary</span></h5>
+                <div class="bg-light p-3 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Subtotal</h6>
+                            <h6>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_shipping}}{% else %}{{cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total|add:cart.get_shipping}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+
+
+
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="staticBackdropLabel">Write a review</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <h6>Product: <span id="product" class="text-muted"></span></h6>
+    </div>
+    <div class="container">
+        <div class="row">
+            
+                                <div class="">
+                                    <small>Your email address will not be published. <br> Required fields are marked *</small>
+                                    <div class="d-flex my-3">
+                                        <p class="mb-0 me-2">Your Rating * :</p>
+                                        <div class="" id="conts">
+                                            <i class="fa fa-star rater" data-rate="1"></i>
+                                            <i class="fa fa-star rater" data-rate="2"></i>
+                                            <i class="fa fa-star rater" data-rate="3"></i>
+                                            <i class="fa fa-star rater" data-rate="4"></i>
+                                            <i class="fa fa-star rater" data-rate="5"></i>
+                                        </div>
+                                    </div>
+                                    <form action="" method="post" id="review-form">
+                                        {% csrf_token %}
+                                        <input type="number" required name="ratings" hidden id="ratings">
+                                        <div class="form-group mb-3">
+                                            <label for="message">Your Review *</label>
+                                            <textarea name="comment" required cols="30" rows="5" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="name">Your Name *</label>
+                                            <input required type="text" class="form-control" name="name">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="email">Your Email *</label>
+                                            <input type="email" required name="email" class="form-control" id="email">
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                        </div>
+                                    </form>
+                                </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function review(parent){
+        btn=document.getElementById(`review-${parent}`)
+        const productName = btn.dataset.product;
+        const product = btn.dataset.id;
+        document.getElementById('product').innerText=productName
+        document.getElementById('review-form').action=`/review/product-${product}/`
+    }
+</script>
+
+{% endblock %}

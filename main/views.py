@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Product, Cart, OrderItem, Category, ProductImage, Review
+from .models import Product, Cart, OrderItem, Category, ProductImage, Review,ShippingAddress
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
@@ -75,8 +75,10 @@ def update_cart(request, pk):
         size = request.POST.get("size", None)
         user = request.user
         product = Product.objects.get(pk=pk)
-        cart, created = Cart.objects.get_or_create(user=user)
-        order, created = OrderItem.objects.get_or_create(product=product, cart=cart, color=color, size=size,quantity=quantity)
+        cart = Cart.objects.filter(user=user, complete=False).first()  # get the first cart that matches the conditions
+        if cart is None:
+            cart = Cart.objects.create(user=user)
+        order, created = OrderItem.objects.get_or_create(product=product, cart=cart, color=color, size=size, quantity=quantity)
         if not created:
             order.quantity = quantity
             order.save()
@@ -84,6 +86,7 @@ def update_cart(request, pk):
     return redirect("cart")
 
 
+@login_required
 def update_num(request):
     if request.method == "POST":
         item_id = request.POST.get("itemId")
@@ -100,7 +103,7 @@ def update_num(request):
             order.save()
     return redirect("cart")
 
-
+@login_required
 def delete_order(request, id):
     item = OrderItem.objects.get(id=id)
     item.delete()
@@ -132,7 +135,7 @@ def subscribe(request):
 
     return redirect("home")
 
-
+@login_required
 def checkout(request):
     user = request.user
     cart, created = Cart.objects.get_or_create(user=user, complete=False)
@@ -189,3 +192,56 @@ def about(request):
 def faq(request):
     return render(request, "base/faq.html")
 
+
+def shipping(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first-name')
+        last_name = request.POST.get('last-name')
+        email = request.POST.get('email')
+        mobile_number = request.POST.get('phone')
+        street_address = request.POST.get('street')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        apartment = request.POST.get('other')
+        zip_code = request.POST.get('zip')
+        cart_id = request.POST.get('cart')
+        cart = Cart.objects.get(transaction_id=cart_id)
+        # Check if there is already a shipping address for the current cart
+        try:
+            shipping = ShippingAddress.objects.get(cart=cart)
+            # Update the existing shipping address
+            shipping.first_name = first_name
+            shipping.last_name = last_name
+            shipping.email = email
+            shipping.phone = mobile_number
+            shipping.street = street_address
+            shipping.other = apartment
+            shipping.country = country
+            shipping.city = city
+            shipping.zipcode = zip_code
+            shipping.save()
+        except ShippingAddress.DoesNotExist:
+            # Create a new shipping address
+            
+            shipping = ShippingAddress.objects.create(first_name=first_name, last_name=last_name,email=email,phone=mobile_number,street=street_address,other=apartment,country=country,zipcode=zip_code,city=city,cart=cart)
+        
+        # Return a success message or redirect to a success page
+        return redirect('home')
+
+
+
+def payment_confirmed(request):
+    # Get the form data from the POST request
+    cart_id = request.POST['cart']
+    cart = Cart.objects.get(transaction_id=cart_id)
+    cart.complete=True
+    cart.save()
+    return redirect('shop')
+
+
+def order_view(request,pk):
+    cart= Cart.objects.get(transaction_id=pk)
+    cartitems = cart.cartitems.all()
+
+    context = {"items": cartitems, "cart": cart}
+    return render(request,'base/order.html',context)
