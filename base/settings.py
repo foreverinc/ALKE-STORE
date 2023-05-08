@@ -127,7 +127,7 @@ if  DEBUG:
         )
     DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 
-    STATIC_URL='https://github.com/foreverinc/alkestatic_cdn/'
+    STATIC_URL='https://foreverinc.github.io/alkestatic_cdn/'
 
 else:
     DATABASES = {
