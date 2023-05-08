@@ -198,8 +198,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'foreverinc.dev@gmail.com'
-EMAIL_HOST_PASSWORD = 'zpnobianfavxcqwv'
+EMAIL_HOST_USER = 'theronalliance.dev@gmail.com'
+EMAIL_HOST_PASSWORD = 'gksznagmjpkzikfg'
 EMAIL_USE_TLS = True
 
 
@@ -216,8 +216,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '108603166313-dv0g4385u37vk46u8o91qi2hj4pdgvi6.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': '421871608886-0u0ro2r4l33vl9nuuk2967e7ohp62n40.apps.googleusercontent.com',
+            'secret': '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',
             'key': ''
         }
     }
