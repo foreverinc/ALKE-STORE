@@ -48,7 +48,7 @@
                         {% for item in items %}
                         <tr>
                             <td class="align-middle"><img src="{{item.product.product_img.url}}" alt="" style="width: 50px;"> {{item.product.name|truncatewords:2}}</td>
-                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.product.price}}{% else %}{{item.product.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
+                            <td class="align-middle"><p style="line-height: 14px;">{% if request.user.account.exchange.initials == 'USD' %}${{item.product.price}}{% else %}{{item.product.price|convert:request.user.account.exchange.exchange}} <span class="c-sp">{{request.user.account.exchange}}</span>{% endif %}</p></td>
                             <td class="align-middle">
                                 <form action="{% url 'add' %}" method="post">
                                     {% csrf_token %}
@@ -69,7 +69,7 @@
                                 </form>
 
                             </td>
-                            <td class="align-middle">{% if request.user.account.exchange.initials == 'USD' %}${{item.get_total}}{% else %}{{item.get_total|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</td>
+                            <td class="align-middle"><p style="line-height: 14px;">{% if request.user.account.exchange.initials == 'USD' %}${{item.get_total}}{% else %}{{item.get_total|convert:request.user.account.exchange.exchange}} <span class="c-sp">{{request.user.account.exchange}}</span>{% endif %}</p></td>
                             <td class="align-middle"><a href="{% url 'done' item.id %}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                         </tr>
                         {% endfor %}

@@ -137,10 +137,12 @@ class Cart(models.Model):
         total=sum([item.get_total for item in orders])
         if total==0:
             shipping=0
-        elif total >100:
+        elif total >150:
             shipping=30
-        else:
-            shipping=50
+        elif total >=25 and total <=50:
+            shipping=40
+        elif total<=25:
+            shipping=20    
         return shipping  
     
     
