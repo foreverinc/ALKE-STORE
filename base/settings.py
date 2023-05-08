@@ -106,7 +106,6 @@ if  DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'URL':'postgresql://postgres:SAAaFS640WNnTT9TU9mI@containers-us-west-185.railway.app:6857/railway',
             'NAME': 'railway',
             'USER': 'postgres',
             'PASSWORD': 'SAAaFS640WNnTT9TU9mI',
