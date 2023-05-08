@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -93,7 +94,13 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+STATIC_URL = 'static/'
+MEDIA_URL='media/'
 
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static'),
+    os.path.join(BASE_DIR,'media')
+]
 
 if  DEBUG:
     DATABASES = {
@@ -108,6 +115,20 @@ if  DEBUG:
         }
     }
 
+    CLOUDINARY_STORAGE={
+        'CLOUD_NAME': 'dvqvtwria',
+        'API_KEY': '931772247249532',
+        'API_SECRET': 'jOIXfWMEkGVsN4N4IYgZyFGZmvA',
+    }
+    cloudinary.config( 
+        cloud_name = "dvqvtwria", 
+        api_key = "931772247249532", 
+        api_secret = "jOIXfWMEkGVsN4N4IYgZyFGZmvA" 
+        )
+    DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
+
+    STATIC_URL='https://github.com/foreverinc/alkestatic_cdn/'
+
 else:
     DATABASES = {
         'default': {
@@ -115,6 +136,8 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    STATIC_ROOT=os.path.join(BASE_DIR,'static_cdn')
+    MEDIA_ROOT=os.path.join(BASE_DIR,'media_cdn')
 
 
 # Password validation
@@ -152,14 +175,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'static'),
-    os.path.join(BASE_DIR,'media')
-]
-STATIC_ROOT=os.path.join(BASE_DIR,'static_cdn')
-MEDIA_URL='media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,'media_cdn')
+
+
+
 
 
 # Default primary key field type

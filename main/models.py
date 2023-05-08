@@ -61,7 +61,7 @@ class Product(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     digital = models.BooleanField(default=False)
     featured = models.BooleanField(default=False)
-    original_price = models.DecimalField(max_digits=10000, decimal_places=2, blank=True, null=True)
+    original_price = models.DecimalField(max_digits=1000, decimal_places=2, blank=True, null=True)
     description = RichTextField(verbose_name='Description')
     special_offer = models.BooleanField(default=False)
     color=MultiSelectField(choices=COLORS,max_length=100,max_choices=20,null=True,blank=True)
