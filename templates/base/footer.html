@@ -2,7 +2,7 @@
 <!-- Footer Start -->
     <div class="container-fluid bg-dark text-secondary mt-5 ">
         <div class="row px-xl-5 pt-3">
-            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+            <div class="col-lg-4 col-md-12 col-6 mb-5">
                 <h5>GET IN TOUCH</h5>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>Sweden</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@example.com</p>
@@ -25,6 +25,7 @@
                             <a class="text-secondary mb-2" href="{% url 'checkout'%}"><i class="fa fa-angle-right me-2"></i>Checkout</a>
                         </div>
                     </div>
+                    
                     <div class="col-md-4 mb-4">
                         <h5 class="text-secondary text-uppercase">Newsletter</h5>
                         <p>Dont miss out on new products, exclusive promotions, and special offers, subscribe now!</p>
@@ -37,15 +38,21 @@
                             </div>
                         </form>
                         <h6 class="text-secondary text-uppercase mt-4 mb-3">Follow Us</h6>
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-start mb-2">
                             <a class="me-3" href="#"><img src="{% static 'img/fb.png' %}" width="35" alt="" /></a>
                             <a class="me-3" href="#"><img src=" {%static 'img/tw.png' %}" width="35" alt="" /></a>
                             <a class="" href="#"><img src="{% static 'img/ig.png' %}" width="35" alt="" /></a>
+                            
                         </div>
+                        
                     </div>
+                   
                 </div>
             </div>
         </div>
+         <div class="text-center mb-2">
+                            <img src="{% static 'img/payments.png'%}" alt="payments">
+                        </div>
         <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
             <div class="">
                 <span class="text-secondary">
