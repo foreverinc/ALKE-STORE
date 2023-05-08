@@ -310,7 +310,7 @@
     <div class="card rounded-0 bg-warning fixed fixed-bottom text-light">
         <div class="card-body d-flex align-items-center gap-2 justify-content-between">
             <span class="fw-bold" style="font-size: .8rem;">For the best Products ({{item.category.name}})</span>
-            <button class="btn btn-secondary" style="font-size: .8rem;">See more from {{item.category.name}} <i class="fa fa-arrow-right"></i></button>
+            <a href="{% url 'shop'%}?category={{item.category.id}}" class="btn btn-secondary text-decoration-none" style="font-size: .8rem;">See more from {{item.category.name}} <i class="fa fa-arrow-right"></i></a>
         </div>
     </div>
 </div>
