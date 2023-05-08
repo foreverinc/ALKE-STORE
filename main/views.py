@@ -153,13 +153,11 @@ def contact(request):
 
 
 def detail(request, pk):
-    product = Product.objects.get(id=pk)
-    images = ProductImage.objects.filter(product_id=pk)
-    others=Product.objects.filter(category=product.category).exclude(id=pk)
+    product = Product.objects.prefetch_related('review').select_related('category').get(id=pk)
+    images = ProductImage.objects.select_related('product').filter(product_id=pk)
     context = {
         "item": product,
         "images": images,
-        "others":others
     }
 
     return render(request, "base/detail.html", context)

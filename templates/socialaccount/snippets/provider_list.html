@@ -29,7 +29,7 @@
 <div class="container">
     <div class="row">
         <div class="col-10 mx-auto">
-            <a title="{{provider.name}}" class=" btn btn-light shadow socialaccount_provider text-decoration-none {{provider.id}} d-flex align-items-center gap-3 justify-content-center" 
+            <a title="{{provider.name}}" style="background-color: rgb(73, 137, 233);" class=" btn text-light socialaccount_provider text-decoration-none {{provider.id}} d-flex align-items-center gap-3 justify-content-center" 
      href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
      
      <img src="{% static 'img/g-logo.png'%}" style="width: 20px;height:20px" alt=""> Continue with Google

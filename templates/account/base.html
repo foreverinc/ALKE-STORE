@@ -29,9 +29,13 @@
 
 </head>
 <body >
-   
+   <style>
+    *{
+      list-style: none !important;
+    }
+   </style>
+  
     
-
     {% block body %}
     <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,7 +57,7 @@
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
-      <a class="navbar-brand mt-2 mt-lg-0" href="#">
+      <a class="navbar-brand mt-2 mt-lg-0 fw-bold" href="{% url 'home'%}">
         ALKE-STORE
       </a>
       <!-- Left links -->
@@ -111,5 +115,6 @@
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
 ></script>
+<script src="{% static 'js/whatsapp.js'%}"></script>
 </body>
 </html>

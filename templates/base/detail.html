@@ -55,24 +55,46 @@
                 <form action="{% url 'update' item.pk %}" method="post">
                         {% csrf_token %}
                         <h3>{{item.name}}</h3>
+
+                        {% if item.brand %}
+                        <h6>Brand: {{item.brand}}</h6>
+                        {% endif %}
                         <div class="d-flex mb-3">
                             <div class=" me-2">
                                 {% include 'base/rating.html'%}
                             </div>
                         </div>
+                        {% if item.warranty %}
+                        <span class="badge bg-warning mb-2 text-uppercase">{{item.warranty}} warranty</span>
+                        {% endif %}
+                        {% if item.special_offer %}
+                        
+                        <div class="card rounded-0 mb-3">
+                            <div class="card-header rounded-0 bg-danger text-light d-flex justify-content-between align-items-center ">
+                                <span>Limited time offer <i class="fa-sharp fa-solid fa-bolt text-warning"></i> </span><i class="fa-solid fa-tags float-end"></i>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="fw-bold mb-1">{% if user.is_authenticated %}{{item.price|convert:request.user.account.exchange.exchange}} <span class="c-sp">{{request.user.account.exchange}}</span>{% else %}{{item.price}} <span class="c-sp">USD</span>{% endif %}</h4>
+                                <h6 class="text-muted"><del>{% if user.is_authenticated %}{{item.original_price|convert:request.user.account.exchange.exchange}} <span class="">{{request.user.account.exchange}}</span>{% else%}{{item.original_price}}{% endif %}</del><span class="bg-warning ms-2 px-2">-{{item.get_discount}}%</span></h6>
+                            </div>
+                        </div>
+                        {% else %} 
                         {% if user.is_authenticated %}
-                        <h5 class="font-weight-semi-bold me-2" style="display:inline-block">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>{% if item.original_price %}<h6 style="display: inline-block;" class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></h6>{% endif %}
+                        <h4 class="font-weight-semi-bold me-3" style="display:inline-block">{{item.price|convert:request.user.account.exchange.exchange}} <span class="c-sp">{{request.user.account.exchange}}</span></h4><h6 style="display: inline-block;" class="text-muted ml-2"><del>{{item.original_price|convert:request.user.account.exchange.exchange}} <span class="">{{request.user.account.exchange}}</span></del></h6>
 
                         {% else %}
 
                         <h5 class="font-weight-semi-bold me-2" style="display:inline-block">${{item.price}}</h5>{% if item.original_price %}<h6 style="display: inline-block;" class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}
-                        {% endif %}
+
                         
-                        <p class="mb-4">{{ item.description|truncatewords:20|safe}} <a href="#!" onclick="showDescription()">read more</a></p>
-                        {% if item.original_price %}
+                        {% endif %}
                         <p class="text-warning fw-bold">Enjoy a discount of {{item.get_discount}}% off on this item</p>
-                        
                         {% endif %}
+                        
+                        
+                        
+                        
+                        
                             {% if item.size %}
                         <div class="d-flex mb-3">
                             <strong class="text-dark me-3">Sizes:</strong>
@@ -109,7 +131,7 @@
                                 <input type="text" id="quantity" value="1" name="quantity" style="width: 50px;" readonly min="1" class="text-center form-control form-control-sm rounded-0">
                                 <button type="button" class="btn btn-sm btn-danger update-quantity rounded-0" data-action="remove"><i class="fa fa-minus"></i></button>
                             </div>
-                            <button class="btn btn-success rounded-0 px-3"><i class="fa fa-shopping-cart me-1"></i> Add To Cart</button>
+                            <button class="btn btn-warning btn-lg text-light px-3"><i class="fa fa-shopping-cart me-1"></i> Add To Cart</button>
                         </div>
                         
                     </form>
@@ -122,7 +144,7 @@
         <div class="col-12">
             <ul class="nav nav-tabs">
                 <li class="nav-item" id="nav-1">
-                    <a class="nav-link liked text-decoration-none text-muted" aria-current="page" href="#!">Product Description</a>
+                    <a class="nav-link liked active text-decoration-none text-muted" aria-current="page" href="#!">Product Description</a>
                 </li>
                 <li class="nav-item" id="nav-2">
                     <a class="nav-link liked text-decoration-none text-muted" href="#!">Additional Information</a>
@@ -131,13 +153,13 @@
                     <a class="nav-link liked text-decoration-none text-muted" href="#!">Reviews ({{item.review.count}})</a>
                 </li>
             </ul>
-            <div class="card d-none rounded-0" id="tab-1">
+            <div class="card card-tab rounded-0" id="tab-1">
                 <div class="card-body">
                     <h4 class="mb-3" id="info">Product Description</h4>
                     <p>{{item.description|safe}}</p>
                 </div>
             </div>
-            <div class="card d-none rounded-0" id="tab-2">
+            <div class="card card-tab d-none rounded-0" id="tab-2">
                 <div class="card-body">
                     <h4 class="mb-3">Additional Information</h4>
                             <p></p>
@@ -164,6 +186,21 @@
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="list-group list-group-flush">
+                                        {% if item.product_model %}
+                                        <li class="list-group-item px-0">
+                                            <h6>Model: {{item.product_model}}</h6>
+                                        </li>
+                                        {% endif %}
+                                        {% if item.sku %}
+                                        <li class="list-group-item px-0">
+                                            <h6>SKU: {{item.sku}}</h6>
+                                        </li>
+                                        {% endif %}
+                                        {% if item.weight %}
+                                        <li class="list-group-item px-0">
+                                            <h6>Weight (kgs): {{item.weight}}</h6>
+                                        </li>
+                                        {% endif %}
                                         {% if item.manufacturer %}
                                         <li class="list-group-item px-0">
                                             <h6>Manufactured by: {{item.manufacturer}}</h6>
@@ -174,7 +211,7 @@
                             </div>
                 </div>
             </div>
-            <div class="card d-none rounded-0" id="tab-3">
+            <div class="card card-tab d-none rounded-0" id="tab-3">
                 <div class="card-body">
                     <div class="row">
                                 <div class="col-md-6">
@@ -269,6 +306,14 @@
     </div>
 </div>
 
+<div class="container-fluid mt-4">
+    <div class="card rounded-0 bg-warning fixed fixed-bottom text-light">
+        <div class="card-body d-flex align-items-center gap-2 justify-content-between">
+            <span class="fw-bold" style="font-size: .8rem;">For the best Products ({{item.category.name}})</span>
+            <button class="btn btn-secondary" style="font-size: .8rem;">See more from {{item.category.name}} <i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
 
  
     <!-- Shop Detail End -->
@@ -279,7 +324,7 @@
 <script>
 /// Select all the tab nav links and tab cards
 const navLinks = document.querySelectorAll('.liked');
-const tabCards = document.querySelectorAll('.card');
+const tabCards = document.querySelectorAll('.card-tab');
 
 // Add a click event listener to each tab nav link
 navLinks.forEach(link => {
