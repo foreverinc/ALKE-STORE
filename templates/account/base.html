@@ -89,9 +89,9 @@
   <!-- Container wrapper -->
 </nav>
 <!-- Navbar -->
-<div class="container" style="min-height: 100vh;">
+<div class="container" >
     <div class="row">
-        <div class="col-12 col-md-6 mx-auto " style="margin-top:20px;">
+        <div class="col-12 col-md-6 mx-auto " style="margin-top: 20px ;">
             {% block content %}
             {% endblock %}
         
@@ -110,7 +110,7 @@
     {% block extra_body %}
     {% endblock %}
         
-
+{% include 'base/footer.html' %}
 <script
   type="text/javascript"
   src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
