@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e80ehznsgmkbl2kquz++$368we(mf@n98q-g14@vo8yq(^vgs4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -57,7 +57,13 @@ INSTALLED_APPS = [
     'ckeditor'
 ]
 
-SITE_ID=1
+AUTHENTICATION_BACKENDS = [
+    
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 
 MIDDLEWARE = [
@@ -102,7 +108,7 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'media')
 ]
 
-if not DEBUG:
+if  DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -128,6 +134,7 @@ if not DEBUG:
 
     STATIC_URL='https://foreverinc.github.io/alkestatic_cdn/'
 
+    SITE_ID = 2
 else:
     DATABASES = {
         'default': {
@@ -137,7 +144,11 @@ else:
     }
     STATIC_ROOT=os.path.join(BASE_DIR,'static_cdn')
     MEDIA_ROOT=os.path.join(BASE_DIR,'media_cdn')
+    SITE_ID = 1
 
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -197,9 +208,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

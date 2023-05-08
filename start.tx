@@ -3,12 +3,13 @@ categories = [    "Fashion",    "Beauty & Personal Care",    "Books & Movies",  
 ------------------_HELP_------------------
 
 from main.models import Category
-categories = [    "Apparel & Accessories",    "Beauty & Personal Care",    "Books & Movies",    "Electronics",    "Food & Beverages",    "Health & Wellness",    "Home & Garden",    "Office & School Supplies",    "Sports & Outdoors",    "Toys & Games",]
-for c in categories:
-    new_cat=Category.objects.create(name=c)
-    new_cat.save()
 
-name=['','','','','','','','','','','','']
+categories = ["Apparel & Accessories", "Beauty & Personal Care", "Books & Movies", "Electronics", "Food & Beverages", "Health & Wellness", "Home & Garden", "Office & School Supplies", "Sports & Outdoors", "Toys & Games"]
+image_names = ['fashion', 'care', 'book', 'electronic', 'food', 'health', 'home', 'office', 'sport', 'toy']
+
+for i, category_name in enumerate(categories):
+    category = Category.objects.create(name=category_name, image_name=image_names[i])
+    category.save()
 
 
 from accounts.models import Currency
