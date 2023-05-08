@@ -3,7 +3,7 @@ categories = [    "Fashion",    "Beauty & Personal Care",    "Books & Movies",  
 ------------------_HELP_------------------
 
 from main.models import Category
-categories = [    "Apparel & Accessories",    "Beauty & Personal Care",    "Books, Movies & Music",    "Consumer Electronics",    "Food & Beverage",    "Health & Wellness",    "Home & Garden",    "Office & School Supplies",    "Sports & Outdoors",    "Toys & Games",]
+categories = [    "Apparel & Accessories",    "Beauty & Personal Care",    "Books & Movies",    "Electronics",    "Food & Beverages",    "Health & Wellness",    "Home & Garden",    "Office & School Supplies",    "Sports & Outdoors",    "Toys & Games",]
 for c in categories:
     new_cat=Category.objects.create(name=c)
     new_cat.save()

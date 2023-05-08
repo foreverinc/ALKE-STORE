@@ -70,6 +70,11 @@ class Product(models.Model):
     material=models.CharField(max_length=200,blank=True,null=True)
     price_label=models.CharField(max_length=3,null=True,choices=PRICE_LABELS)
     specification = RichTextField(null=True)
+    product_model=models.CharField(max_length=200,null=True,blank=True)
+    weight=models.CharField(max_length=200,null=True,blank=True)
+    warranty = models.CharField(max_length=200,null=True,blank=True)
+    brand=models.CharField(max_length=200,null=True,blank=True)
+    sku=models.CharField(max_length=200,null=True,blank=True)
 
     
         
