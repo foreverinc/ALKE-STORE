@@ -129,6 +129,7 @@ class Cart(models.Model):
     date_ordered=models.DateTimeField(auto_now_add=True)
     transaction_id=models.UUIDField(default=uuid.uuid4,primary_key=True)
     complete=models.BooleanField(default=False)
+    total=models.PositiveIntegerField(default=0,null=True)
     
     
     @property
@@ -137,12 +138,12 @@ class Cart(models.Model):
         total=sum([item.get_total for item in orders])
         if total==0:
             shipping=0
+        elif total >=25 and total <=50:
+            shipping=20   
         elif total >150:
             shipping=30
-        elif total >=25 and total <=50:
-            shipping=40
-        elif total<=25:
-            shipping=20    
+        else:
+            shipping=40.66    
         return shipping  
     
     
@@ -151,7 +152,9 @@ class Cart(models.Model):
         orders=self.cartitems.all()
         total=sum([item.get_total for item in orders])
         return total
-    
+    def get_cart_final(self):
+        total=round(float(self.get_cart_total) + float(self.get_shipping),2)
+        return total
     @property
     def get_cart_items(self):
         orders=self.cartitems.all()
@@ -193,3 +196,10 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.first_name +'' + self.last_name
 
+class Cupon(models.Model):
+    code=models.CharField(max_length=200)
+    used_by=models.ManyToManyField(User,blank=True)
+    amount=models.DecimalField(decimal_places=2,max_digits=999,max_length=999,null=True)
+
+    def __str__(self):
+        return self.code

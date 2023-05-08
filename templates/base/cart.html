@@ -77,11 +77,12 @@
                 </table>
             </div>
             <div class="col-lg-4">
-                <form class="mb-30" action="">
+                <form class="mb-30" action="{% url 'get' %}" method="post">
+                    {% csrf_token %}
                     <div class="input-group mb-4">
-                        <input type="text" class="form-control" placeholder="Coupon Code">
+                        <input type="text" disabled class="form-control" name="code" placeholder="No Coupon Codes active">
                         <div class="input-group-append">
-                            <button class="btn btn-warning rounded-0">Apply Coupon</button>
+                            <button type="submit" class="btn btn-warning rounded-0">Apply Coupon</button>
                         </div>
                     </div>
                 </form>
@@ -100,7 +101,7 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_total|add:cart.get_shipping}}{% else %}{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>
+                            <h5>{% if request.user.account.exchange.initials == 'USD' %}${{cart.get_cart_final}}{% else %}{{cart.get_cart_final|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h5>
                             
                         </div>
                         <a href="{% url 'checkout'%}" class="btn btn-warning my-3 text-decoration-none fw-bold">Proceed To Checkout</a>

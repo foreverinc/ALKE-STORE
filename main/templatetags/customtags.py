@@ -22,6 +22,7 @@ def cart_num(context):
         request_user = context['request'].user
         cart = Cart.objects.select_related('user').get(user=request_user, complete=False)
         cart_items = cart.cartitems.all()
+        
         num_items = sum(item.quantity for item in cart_items)
         return {'num_items': num_items}
     except (KeyError, Cart.DoesNotExist):

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Product, Cart, OrderItem, Category, ProductImage, Review,ShippingAddress
+from .models import Product, Cart, OrderItem, Category, ProductImage, Review,ShippingAddress,Cupon
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
@@ -85,6 +85,7 @@ def update_cart(request, pk):
             order.quantity = quantity
             order.save()
         messages.success(request, "Item successfully added to cart")
+        
     return redirect("cart")
 
 
@@ -103,6 +104,7 @@ def update_num(request):
         elif action == "add":
             order.quantity += 1
             order.save()
+
     return redirect("cart")
 
 @login_required
@@ -276,4 +278,28 @@ def order_view(request,pk):
     return render(request,'base/order.html',context)
 
 
+def get_code(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        user = request.user
+        coupon = Cupon.objects.filter(code=code).first()
+        if coupon:
+            if user in coupon.used_by.all():
+                messages.error(request, 'Coupon code already used.')
+            else:
+                cart = Cart.objects.filter(user=user, complete=False).first()
+                if not cart:
+                    messages.error(request, 'Cart is empty.')
+                elif cart.get_cart_total <= coupon.amount:
+                    messages.error(request, 'Coupon code cannot be used.')
+                else:
+                    cart.total = cart.total - coupon.amount
+                    cart.save()
+                    coupon.used_by.add(user)
+                    messages.success(request, 'Coupon code successfully applied.')
+        else:
+            messages.error(request, 'Coupon code does not exist.')
+        
+    return redirect('cart')
 
+            

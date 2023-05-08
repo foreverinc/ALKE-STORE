@@ -50,7 +50,7 @@
                     <div class="pt-2">
 <div class="d-flex justify-content-between mt-2">
     <h5>Total</h5>
-    <h5>{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange|floatformat:2}} {{request.user.account.exchange}}</h5>
+    <h5>{{cart.get_cart_final|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}</h5>
 </div>
 
 
