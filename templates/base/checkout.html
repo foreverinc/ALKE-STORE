@@ -142,7 +142,7 @@
     <!-- Set up a container element for the button -->
     <div id="paypal-button-container"></div>
     <script>
-        var total='{{cart.get_cart_total|convert:request.user.account.exchange.exchange|add:cart.get_shipping|convert:request.user.account.exchange.exchange}}'
+        var total='{{cart.get_cart_final|convert:request.user.account.exchange.exchange}}'
       paypal.Buttons({
         
         style:{
