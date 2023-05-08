@@ -113,7 +113,7 @@
                 <div class="card-body">
                   <h6 class="card-title text-center text-muted">{{item.name|truncatewords:4}}</h6>
                   <div class="d-flex align-items-center justify-content-center mt-2">{% if user.is_authenticated %}
-                    <h6 class="me-2">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</h6>{% if item.original_price %}<small class="text-muted ml-2"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></small>{% endif %}
+                    <p class="me-1" style="line-height: 10px;">{% if request.user.account.exchange.initials == 'USD' %}${{item.price}}{% else %}{{item.price|convert:request.user.account.exchange.exchange}} <span class="c-sd">{{request.user.account.exchange}}</span>{% endif %}</p>{% if item.original_price %}<small class="text-muted ms-1"><del>{% if request.user.account.exchange.initials == 'USD' %}${{item.original_price}}{% else %}{{item.original_price|convert:request.user.account.exchange.exchange}} {{request.user.account.exchange}}{% endif %}</del></small>{% endif %}
                     {% else %}
                     <h5 class="me-2">${{item.price}}</h5>{% if item.original_price %}<h6 class="text-muted ml-2"><del>${{item.original_price}}</del></h6>{% endif %}{% endif %}
                 </div>
